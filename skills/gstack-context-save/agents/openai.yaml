@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-context-save"
+  short_description: "Save active session context, open files, and terminal state."
+  default_prompt: "Use gstack-context-save for this task."
+policy:
+  allow_implicit_invocation: true

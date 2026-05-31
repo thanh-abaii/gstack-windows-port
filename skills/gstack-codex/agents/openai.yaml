@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-codex"
+  short_description: "Infrastructure support for gstack codex."
+  default_prompt: "Use gstack-codex for this task."
+policy:
+  allow_implicit_invocation: true
