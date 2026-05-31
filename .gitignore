@@ -47,3 +47,6 @@ gstack-original/
 # Antigravity agentic specifications and plans
 docs/plans/
 docs/specs/
+
+# Temporary and ignored local project files
+AGENTS.md
