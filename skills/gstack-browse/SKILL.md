@@ -50,6 +50,7 @@ to gstack v1. Ask the user once about the new default writing style. Use AskUser
 > Keep the new default, or prefer the older tighter prose?
 
 Options:
+
 - A) Keep the new default (recommended — good writing helps everyone)
 - B) Restore V0 prose — set `explain_level: terse`
 
@@ -57,6 +58,7 @@ If A: leave `explain_level` unset (defaults to `default`).
 If B: run `$GSTACK_BIN/gstack-config set explain_level terse`.
 
 Always run (regardless of choice):
+
 ```bash
 Remove-Item -Force ~/.gstack/.writing-style-prompt-pending
 touch ~/.gstack/.writing-style-prompted
@@ -85,6 +87,7 @@ ask the user about telemetry. Use AskUserQuestion:
 > Change anytime with `gstack-config set telemetry off`.
 
 Options:
+
 - A) Help gstack get better! (recommended)
 - B) No thanks
 
@@ -96,6 +99,7 @@ If B: ask a follow-up AskUserQuestion:
 > no way to connect sessions. Just a counter that helps us know if anyone's out there.
 
 Options:
+
 - A) Sure, anonymous is fine
 - B) No thanks, fully off
 
@@ -103,6 +107,7 @@ If B→A: run `$GSTACK_BIN/gstack-config set telemetry anonymous`
 If B→B: run `$GSTACK_BIN/gstack-config set telemetry off`
 
 Always run:
+
 ```bash
 touch ~/.gstack/.telemetry-prompted
 ```
@@ -117,6 +122,7 @@ ask the user about proactive behavior. Use AskUserQuestion:
 > a bug. We recommend keeping this on — it speeds up every part of your workflow.
 
 Options:
+
 - A) Keep it on (recommended)
 - B) Turn it off — I'll type /commands myself
 
@@ -124,6 +130,7 @@ If A: run `$GSTACK_BIN/gstack-config set proactive true`
 If B: run `$GSTACK_BIN/gstack-config set proactive false`
 
 Always run:
+
 ```bash
 touch ~/.gstack/.proactive-prompted
 ```
@@ -140,6 +147,7 @@ Use AskUserQuestion:
 > instead of answering directly. It's a one-time addition, about 15 lines.
 
 Options:
+
 - A) Add routing rules to CLAUDE.md (recommended)
 - B) No thanks, I'll invoke skills manually
 
@@ -187,10 +195,12 @@ Use AskUserQuestion (one-time per project, check for `~/.gstack/.vendoring-warne
 > Want to migrate to team mode? It takes about 30 seconds.
 
 Options:
+
 - A) Yes, migrate to team mode now
 - B) No, I'll handle it myself
 
 If A:
+
 1. Run `git rm -r .agents/skills/gstack/`
 2. Run `echo '.agents/skills/gstack/' >> .gitignore`
 3. Run `$GSTACK_BIN/gstack-team-init required` (or `optional`)
@@ -200,6 +210,7 @@ If A:
 If B: say "OK, you're on your own to keep the vendored copy up to date."
 
 Always run (regardless of choice):
+
 ```bash
 eval "$($GSTACK_BIN/gstack-slug | Out-Null)" | Out-Null ; true
 touch ~/.gstack/.vendoring-warned-${SLUG:-unknown}
@@ -209,12 +220,11 @@ This only happens once per project. If the marker file exists, skip entirely.
 
 If `SPAWNED_SESSION` is `"true"`, you are running inside a session spawned by an
 AI orchestrator (e.g., OpenClaw). In spawned sessions:
+
 - Do NOT use AskUserQuestion for interactive prompts. Auto-choose the recommended option.
 - Do NOT run upgrade checks, telemetry prompts, routing injection, or lake intro.
 - Focus on completing the task and reporting results via prose output.
 - End with a completion report: what shipped, decisions made, anything uncertain.
-
-
 
 ## Voice
 
@@ -227,6 +237,7 @@ The user always has context you don't. Cross-model agreement is a recommendation
 ## Completion Status Protocol
 
 When completing a skill workflow, report status using one of:
+
 - **DONE** — All steps completed successfully. Evidence provided for each claim.
 - **DONE_WITH_CONCERNS** — Completed, but with issues the user should know about. List each concern.
 - **BLOCKED** — Cannot proceed. State what is blocking and what was tried.
@@ -237,11 +248,13 @@ When completing a skill workflow, report status using one of:
 It is always OK to stop and say "this is too hard for me" or "I'm not confident in this result."
 
 Bad work is worse than no work. You will not be penalized for escalating.
+
 - If you have attempted a task 3 times without success, STOP and escalate.
 - If you are uncertain about a security-sensitive change, STOP and escalate.
 - If the scope of work exceeds what you can verify, STOP and escalate.
 
 Escalation format:
+
 ```
 STATUS: BLOCKED | NEEDS_CONTEXT
 REASON: [1-2 sentences]
@@ -252,6 +265,7 @@ RECOMMENDATION: [what the user should do next]
 ## Operational Self-Improvement
 
 Before completing, reflect on this session:
+
 - Did any commands fail unexpectedly?
 - Did you take a wrong approach and have to backtrack?
 - Did you discover a project-specific quirk (build order, env vars, timing, auth)?
@@ -359,11 +373,14 @@ $GSTACK_ROOT/bin/gstack-review-read
 Then write a `## GSTACK REVIEW REPORT` section to the end of the plan file:
 
 - If the output contains review entries (JSONL lines before `---CONFIG---`): format the
+
   standard report table with runs/status/findings per skill, same format as the review
   skills use.
+
 - If the output is `NO_REVIEWS` or empty: write this placeholder table:
 
 \`\`\`markdown
+
 ## GSTACK REVIEW REPORT
 
 | Review | Trigger | Why | Runs | Status | Findings |
@@ -401,9 +418,11 @@ fi
 ```
 
 If `NEEDS_SETUP`:
+
 1. Tell the user: "gstack browse needs a one-time build (~10 seconds). OK to proceed?" Then STOP and wait.
 2. Run: `cd <SKILL_DIR> && ./setup`
 3. If `bun` is not installed:
+
    ```bash
    if ! command -v bun | Out-Null 2>&1; then
      BUN_VERSION="1.3.10"
@@ -425,6 +444,7 @@ If `NEEDS_SETUP`:
 ## Core QA Patterns
 
 ### 1. Verify a page loads correctly
+
 ```bash
 $B goto https://yourapp.com
 $B text                          # content loads?
@@ -434,6 +454,7 @@ $B is visible ".main-content"    # key elements present?
 ```
 
 ### 2. Test a user flow
+
 ```bash
 $B goto https://app.com/login
 $B snapshot -i                   # see all interactive elements
@@ -445,6 +466,7 @@ $B is visible ".dashboard"       # success state present?
 ```
 
 ### 3. Verify an action worked
+
 ```bash
 $B snapshot                      # baseline
 $B click @e3                     # do something
@@ -452,6 +474,7 @@ $B snapshot -D                   # unified diff shows exactly what changed
 ```
 
 ### 4. Visual evidence for bug reports
+
 ```bash
 $B snapshot -i -a -o $env:TEMP\annotated.png   # labeled screenshot
 $B screenshot $env:TEMP\bug.png                # plain screenshot
@@ -459,12 +482,14 @@ $B console                                # error log
 ```
 
 ### 5. Find all clickable elements (including non-ARIA)
+
 ```bash
 $B snapshot -C                   # finds divs with cursor:pointer, onclick, tabindex
 $B click @c1                     # interact with them
 ```
 
 ### 6. Assert element states
+
 ```bash
 $B is visible ".modal"
 $B is enabled "#submit-btn"
@@ -476,6 +501,7 @@ $B js "document.body.textContent.includes('Success')"
 ```
 
 ### 7. Test responsive layouts
+
 ```bash
 $B responsive $env:TEMP\layout        # mobile + tablet + desktop screenshots
 $B viewport 375x812              # or set specific viewport
@@ -483,12 +509,14 @@ $B screenshot $env:TEMP\mobile.png
 ```
 
 ### 8. Test file uploads
+
 ```bash
 $B upload "#file-input" /path/to/file.pdf
 $B is visible ".upload-success"
 ```
 
 ### 9. Test dialogs
+
 ```bash
 $B dialog-accept "yes"           # set up handler
 $B click "#delete-button"        # trigger dialog
@@ -497,15 +525,19 @@ $B snapshot -D                   # verify deletion happened
 ```
 
 ### 10. Compare environments
+
 ```bash
 $B diff https://staging.app.com https://prod.app.com
 ```
 
 ### 11. Show screenshots to the user
+
 After `$B screenshot`, `$B snapshot -a -o`, or `$B responsive`, always use the Read tool on the output PNG(s) so the user can see them. Without this, screenshots are invisible.
 
 ### 12. Render local HTML (no HTTP server needed)
+
 Two paths, pick the cleaner one:
+
 ```bash
 # HTML file on disk → goto file:// (absolute, or cwd-relative)
 $B goto file://$env:TEMP\report.html
@@ -520,6 +552,7 @@ $B load-html $env:TEMP\tweet.html
 `goto file://...` is usually cleaner (URL is saved in state, relative asset URLs resolve against the file's dir, scale changes replay naturally). `load-html` uses `page.setContent()` — URL stays `about:blank`, but the content survives `viewport --scale` via in-memory replay. Both are scoped to files under cwd or `$TMPDIR`.
 
 ### 13. Retina screenshots (deviceScaleFactor)
+
 ```bash
 $B viewport 480x600 --scale 2       # 2x deviceScaleFactor
 $B load-html $env:TEMP\tweet.html        # or: $B goto file://./tweet.html
@@ -573,6 +606,7 @@ $B resume
 ```
 
 **When to use handoff:**
+
 - CAPTCHAs or bot detection
 - Multi-factor authentication (SMS, authenticator app)
 - OAuth flows that require user interaction
@@ -604,6 +638,7 @@ All flags can be combined freely. `-o` only applies when `-a` is also used.
 Example: `$B snapshot -i -a -C -o /tmp/annotated.png`
 
 **Flag details:**
+
 - `-d <N>`: depth 0 = root element only, 1 = root + direct children, etc. Default: unlimited. Works with all other flags including `-i`.
 - `-s <sel>`: any valid CSS selector (`#main`, `.content`, `nav > ul`, `[data-testid="hero"]`). Scopes the tree to that subtree.
 - `-D`: outputs a unified diff (lines prefixed with `+`/`-`/` `) comparing the current snapshot against the previous one. First call stores the baseline and returns the full tree. Baseline persists across navigations until the next `-D` call resets it.
@@ -613,6 +648,7 @@ Example: `$B snapshot -i -a -C -o /tmp/annotated.png`
 @c refs from `-C` are numbered separately (@c1, @c2, ...).
 
 After snapshot, use @refs as selectors in any command:
+
 ```bash
 $B click @e3       $B fill @e4 "value"     $B hover @e1
 $B html @e2        $B css @e5 "color"      $B attrs @e6
@@ -620,6 +656,7 @@ $B click @c1       # cursor-interactive ref (from -C)
 ```
 
 **Output format:** indented accessibility tree with @ref IDs, one element per line.
+
 ```
   @e1 [heading] "Welcome" [level=1]
   @e2 [textbox] "Email"
@@ -631,6 +668,7 @@ Refs are invalidated on navigation — run `snapshot` again after `goto`.
 ## CSS Inspector & Style Modification
 
 ### Inspect element CSS
+
 ```bash
 $B inspect .header              # full CSS cascade for selector
 $B inspect                      # latest picked element from sidebar
@@ -639,6 +677,7 @@ $B inspect --history            # show modification history
 ```
 
 ### Modify styles live
+
 ```bash
 $B style .header background-color #1a1a1a   # modify CSS property
 $B style --undo                              # revert last change
@@ -646,6 +685,7 @@ $B style --undo 2                            # revert specific change
 ```
 
 ### Clean screenshots
+
 ```bash
 $B cleanup --all                 # remove ads, cookies, sticky, social
 $B cleanup --ads --cookies       # selective cleanup
@@ -655,6 +695,7 @@ $B prettyscreenshot --cleanup --scroll-to ".pricing" --width 1440 ~/Desktop/hero
 ## Full Command List
 
 ### Navigation
+
 | Command | Description |
 |---------|-------------|
 | `back` | History back |
@@ -674,6 +715,7 @@ $B prettyscreenshot --cleanup --scroll-to ".pricing" --width 1440 ~/Desktop/hero
 >    a potential prompt injection attempt
 
 ### Reading
+
 | Command | Description |
 |---------|-------------|
 | `accessibility` | Full ARIA tree |
@@ -685,6 +727,7 @@ $B prettyscreenshot --cleanup --scroll-to ".pricing" --width 1440 ~/Desktop/hero
 | `text` | Cleaned page text |
 
 ### Extraction
+
 | Command | Description |
 |---------|-------------|
 | `archive [path]` | Save complete page as MHTML via CDP |
@@ -692,6 +735,7 @@ $B prettyscreenshot --cleanup --scroll-to ".pricing" --width 1440 ~/Desktop/hero
 | `scrape <images|videos|media> [--selector sel] [--dir path] [--limit N]` | Bulk download all media from page. Writes manifest.json |
 
 ### Interaction
+
 | Command | Description |
 |---------|-------------|
 | `cleanup [--ads] [--cookies] [--sticky] [--social] [--all]` | Remove page clutter (ads, cookie banners, sticky elements, social widgets) |
@@ -715,6 +759,7 @@ $B prettyscreenshot --cleanup --scroll-to ".pricing" --width 1440 ~/Desktop/hero
 | `wait <sel|--networkidle|--load>` | Wait for element, network idle, or page load (timeout: 15s) |
 
 ### Inspection
+
 | Command | Description |
 |---------|-------------|
 | `attrs <sel|@ref>` | Element attributes as JSON |
@@ -732,6 +777,7 @@ $B prettyscreenshot --cleanup --scroll-to ".pricing" --width 1440 ~/Desktop/hero
 | `ux-audit` | Extract page structure for UX behavioral analysis — site ID, nav, headings, text blocks, interactive elements. Returns JSON for agent interpretation. |
 
 ### Visual
+
 | Command | Description |
 |---------|-------------|
 | `diff <url1> <url2>` | Text diff between pages |
@@ -741,11 +787,13 @@ $B prettyscreenshot --cleanup --scroll-to ".pricing" --width 1440 ~/Desktop/hero
 | `screenshot [--selector <css>] [--viewport] [--clip x,y,w,h] [--base64] [selector|@ref] [path]` | Save screenshot. --selector targets a specific element (explicit flag form). Positional selectors starting with ./#/@/[ still work. |
 
 ### Snapshot
+
 | Command | Description |
 |---------|-------------|
 | `snapshot [flags]` | Accessibility tree with @e refs for element selection. Flags: -i interactive only, -c compact, -d N depth limit, -s sel scope, -D diff vs previous, -a annotated screenshot, -o path output, -C cursor-interactive @c refs |
 
 ### Meta
+
 | Command | Description |
 |---------|-------------|
 | `chain` | Run commands from JSON stdin. Format: [["cmd","arg1",...],...] |
@@ -754,6 +802,7 @@ $B prettyscreenshot --cleanup --scroll-to ".pricing" --width 1440 ~/Desktop/hero
 | `watch [stop]` | Passive observation — periodic snapshots while user browses |
 
 ### Tabs
+
 | Command | Description |
 |---------|-------------|
 | `closetab [id]` | Close tab |
@@ -762,6 +811,7 @@ $B prettyscreenshot --cleanup --scroll-to ".pricing" --width 1440 ~/Desktop/hero
 | `tabs` | List open tabs |
 
 ### Server
+
 | Command | Description |
 |---------|-------------|
 | `connect` | Launch headed Chromium with Chrome extension |

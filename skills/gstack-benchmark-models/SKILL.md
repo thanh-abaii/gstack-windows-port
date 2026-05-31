@@ -44,6 +44,7 @@ to gstack v1. Ask the user once about the new default writing style. Use AskUser
 > Keep the new default, or prefer the older tighter prose?
 
 Options:
+
 - A) Keep the new default (recommended — good writing helps everyone)
 - B) Restore V0 prose — set `explain_level: terse`
 
@@ -51,6 +52,7 @@ If A: leave `explain_level` unset (defaults to `default`).
 If B: run `$GSTACK_BIN/gstack-config set explain_level terse`.
 
 Always run (regardless of choice):
+
 ```powershell
 Remove-Item -Force ~/.gstack/.writing-style-prompt-pending
 New-Item -ItemType File -Force ~/.gstack/.writing-style-prompted | Out-Null
@@ -79,6 +81,7 @@ ask the user about telemetry. Use AskUserQuestion:
 > Change anytime with `gstack-config set telemetry off`.
 
 Options:
+
 - A) Help gstack get better! (recommended)
 - B) No thanks
 
@@ -90,6 +93,7 @@ If B: ask a follow-up AskUserQuestion:
 > no way to connect sessions. Just a counter that helps us know if anyone's out there.
 
 Options:
+
 - A) Sure, anonymous is fine
 - B) No thanks, fully off
 
@@ -97,6 +101,7 @@ If B→A: run `$GSTACK_BIN/gstack-config set telemetry anonymous`
 If B→B: run `$GSTACK_BIN/gstack-config set telemetry off`
 
 Always run:
+
 ```powershell
 New-Item -ItemType File -Force ~/.gstack/.telemetry-prompted | Out-Null
 ```
@@ -111,6 +116,7 @@ ask the user about proactive behavior. Use AskUserQuestion:
 > a bug. We recommend keeping this on — it speeds up every part of your workflow.
 
 Options:
+
 - A) Keep it on (recommended)
 - B) Turn it off — I'll type /commands myself
 
@@ -118,6 +124,7 @@ If A: run `$GSTACK_BIN/gstack-config set proactive true`
 If B: run `$GSTACK_BIN/gstack-config set proactive false`
 
 Always run:
+
 ```powershell
 New-Item -ItemType File -Force ~/.gstack/.proactive-prompted | Out-Null
 ```
@@ -134,6 +141,7 @@ Use AskUserQuestion:
 > instead of answering directly. It's a one-time addition, about 15 lines.
 
 Options:
+
 - A) Add routing rules to CLAUDE.md (recommended)
 - B) No thanks, I'll invoke skills manually
 
@@ -181,10 +189,12 @@ Use AskUserQuestion (one-time per project, check for `~/.gstack/.vendoring-warne
 > Want to migrate to team mode? It takes about 30 seconds.
 
 Options:
+
 - A) Yes, migrate to team mode now
 - B) No, I'll handle it myself
 
 If A:
+
 1. Run `git rm -r .agents/skills/gstack/`
 2. Run `echo '.agents/skills/gstack/' >> .gitignore`
 3. Run `$GSTACK_BIN/gstack-team-init required` (or `optional`)
@@ -194,6 +204,7 @@ If A:
 If B: say "OK, you're on your own to keep the vendored copy up to date."
 
 Always run (regardless of choice):
+
 ```powershell
 python "bin/gstack-boot.py" --slug | Out-Null
 New-Item -ItemType File -Force ~/.gstack/.vendoring-warned-${env:SLUG:-unknown} | Out-Null
@@ -203,6 +214,7 @@ This only happens once per project. If the marker file exists, skip entirely.
 
 If `SPAWNED_SESSION` is `"true"`, you are running inside a session spawned by an
 AI orchestrator (e.g., OpenClaw). In spawned sessions:
+
 - Do NOT use AskUserQuestion for interactive prompts. Auto-choose the recommended option.
 - Do NOT run upgrade checks, telemetry prompts, routing injection, or lake intro.
 - Focus on completing the task and reporting results via prose output.
@@ -288,6 +300,7 @@ If not found, stop and tell the user to reinstall gstack.
 ## Step 1: Choose a prompt
 
 Use AskUserQuestion:
+
 - **Re-ground:** current project + branch.
 - **Simplify:** "A cross-model benchmark runs the same prompt through 2-3 AI models and shows you how they compare on speed, cost, and output quality. What prompt should we use?"
 - **RECOMMENDATION:** A because benchmarking against a real skill exposes tool-use differences, not just raw generation.
@@ -315,6 +328,7 @@ Show the dry-run output. The "Adapter availability" section tells the user which
 If ALL three show NOT READY: stop with a clear message.
 
 If at least one is OK: AskUserQuestion:
+
 - **Simplify:** "Which models should we include? The dry-run above showed which are authed."
 - **RECOMMENDATION:** A (all authed providers) because running as many as possible gives the richest comparison.
 - **Options:**
@@ -327,11 +341,13 @@ If at least one is OK: AskUserQuestion:
 ## Step 3: Decide on judge
 
 Check if judge is available:
+
 ```powershell
 $JUDGE_AVAILABLE = python "bin/gstack-boot.py" --check-judge-available
 ```
 
 If judge is available, AskUserQuestion:
+
 - **Simplify:** "The quality judge scores each model's output on a 0-10 scale using Anthropic's Claude as a tiebreaker."
 - **RECOMMENDATION:** A — the whole point is comparing quality, not just speed.
 - **Options:**
@@ -361,6 +377,7 @@ After the table prints, summarize: fastest, cheapest, highest quality, best over
 ## Step 6: Offer to save results
 
 AskUserQuestion:
+
 - **Simplify:** "Save this benchmark as JSON so you can compare future runs against it?"
 - **RECOMMENDATION:** A — skill performance drifts as providers update their models; a saved baseline catches quality regressions.
 - **Options:**

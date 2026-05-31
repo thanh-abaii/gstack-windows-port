@@ -1,29 +1,38 @@
-# Báo cáo Sự thật Hệ thống (System Truth) - gstack v2.4 Hardened
+# Báo cáo Sự thật Hệ thống (System Truth) - gstack v1.2.0 Hardened Plus
+
 **Suite:** Uncle Dao Reverse Engineering Suite
-**Version:** v2.4 (Hardened)
+**Version:** v1.2.0 (Hardened Plus)
 **Phase:** System Intent Synthesis
-**Date:** 2026-04-19
+**Date:** 2026-05-31
 
-## 1. Tầm nhìn: OS cho Kỹ sư AI
-gstack không chỉ là một bộ công cụ; nó là một **Hệ điều hành dành riêng cho Agent**. Ý đồ cốt lõi là tạo ra một môi trường thực thi (Harness) có khả năng định hình lại tư duy của LLM: từ một thực thể "trả lời câu hỏi" thành một thực thể "giải quyết vấn đề" (Builder).
+## 1. Tầm nhìn: Môi trường Vận hành Tác nhân AI
 
-## 2. Triết lý Thiết kế: Boil the Lake (Tát cạn hồ)
-Đây là "linh hồn" của gstack. Triết lý này tấn công trực diện vào điểm yếu lớn nhất của AI hiện nay: **Sự lười biếng và hời hợt**.
-- **Constraint:** Agent không được phép chọn con đường dễ dàng nếu con đường đó bỏ qua các trường hợp biên (edge cases).
-- **Mechanism:** Thông qua các Preamble nghiêm ngặt và 37 kỹ năng chuyên biệt, gstack ép Agent phải thực hiện 100% test, 100% QA, và 100% Review.
+gstack được định hướng như một môi trường thực thi (Harness) có cấu trúc dành riêng cho tác nhân AI. Ý đồ cốt lõi là tạo ra một hộp cát (sandbox) ổn định giúp định hình lại quy trình làm việc của LLM: từ một thực thể phản hồi hội thoại thông thường thành một tác nhân giải quyết vấn đề có tính hệ thống và thực tế.
 
-## 3. Kiến trúc Hardened v2: Sự trỗi dậy của Windows 11
-Đợt refactor v2 Hardened là một bước ngoặt chiến lược, thể hiện ý định hệ thống về việc **Chiếm lĩnh môi trường Local Hub**:
-- **Python Bridge:** Việc sử dụng `gstack-boot.py | iex` thay thế hoàn toàn cho Bashisms cho thấy ý đồ tách biệt logic vận hành khỏi những giới hạn của Shell.
-- **Tính Nhất quán:** Mọi kỹ năng giờ đây đều có chung một "DNA" khởi động, giúp hệ thống trở nên lũy đẳng (idempotent) và cực kỳ khó gãy trên Windows.
+## 2. Triết lý Thiết kế: Boil the Lake (Khuyến khích Tính Hoàn thiện)
+
+Triết lý "Boil the Lake" là xương sống trong thiết kế của gstack, tập trung khắc phục điểm yếu phổ biến của các tác nhân AI hiện nay: xu hướng bỏ qua các chi tiết kỹ thuật phức tạp hoặc đưa ra các phản hồi chưa hoàn tất.
+
+- **Ràng buộc (Constraint):** Tác nhân AI được khuyến khích đi qua các trường hợp biên (edge cases) và cấu trúc kiểm thử toàn diện thay vì chọn con đường tối giản.
+- **Cơ chế (Mechanism):** Thông qua các Preamble PowerShell native ổn định, phiên bản v1.2.0 nâng cấp từ 37 kỹ năng cốt lõi ban đầu (v1.0.0) lên 49 kỹ năng thích ứng Windows, giúp hỗ trợ đắc lực cho các quy trình kiểm thử tĩnh, QA thực chứng và các bước đánh giá có cấu trúc.
+
+## 3. Kiến trúc Hardened v2: Sự trỗi dậy của Windows 11 Native
+
+Đợt tái cấu trúc Hardened v2 là một bước tiến quan trọng giúp tối ưu hóa môi trường vận hành cục bộ (Local Hub) trên Windows 11:
+
+- **Python-PowerShell Bridge:** Việc tích hợp luồng khởi chạy `python | iex` thay thế hoàn toàn các kịch bản shell Unix (Bashisms) cũ, giúp tách biệt logic vận hành khỏi những giới hạn và bất tương thích của shell hệ điều hành Windows.
+- **Tính Nhất quán:** Mọi kỹ năng trong hệ thống đều chia sẻ chung một DNA khởi động đồng bộ, giúp nâng cao tính lũy đẳng (idempotency) và giảm thiểu rủi ro lỗi cú pháp trên Windows.
 
 ## 4. Vùng Năng lực & Moat (Hào bảo vệ)
-- **Capability:** Khả năng tự điều hướng (Proactive Routing) biến 37 kỹ năng thành một mạng lưới thần kinh có thể tự gọi lẫn nhau.
-- **Moat:** Hào bảo vệ của gstack chính là **Dữ liệu trải nghiệm (Experience Data)**. Thông qua `learnings-log` và `session-intelligence`, gstack biến Agent thành một thực thể có trí nhớ dài hạn (Long-term memory), thứ mà các Agent thô không bao giờ có được.
+
+- **Năng lực điều phối:** Khả năng tự điều hướng (Proactive Routing) kết hợp 49 kỹ năng thích ứng Windows thành một mạng lưới hoạt động có cấu trúc giúp nâng cao hiệu năng phối hợp.
+- **Tích lũy tri thức:** Dự án tích hợp các công cụ ghi nhận học tập (`learnings-log`) để chuyển hóa các kết quả kiểm thử và vận hành thực tế thành dữ liệu tri thức hữu ích trong `docs/solutions/`, giúp tác nhân AI rút kinh nghiệm trong các phiên làm việc tiếp theo.
 
 ## 5. Kết luận
-gstack là minh chứng cho kỷ nguyên **Agent-Native Coding**. Nó không phục vụ con người một cách trực tiếp; nó phục vụ Agent để Agent có thể phục vụ con người ở mức độ 1000x hiệu suất. Nghiên cứu gstack qua bộ UD Re-Suite giúp chúng ta hiểu rằng: "Vũ khí mạnh nhất không phải là Model tốt nhất, mà là Quy trình tốt nhất."
+
+gstack đại diện cho hướng đi thực tế của kỹ nghệ lập trình Agent-Native. Dự án không thay thế vai trò của con người mà đóng vai trò như một bộ công cụ hỗ trợ tự động hóa đắc lực, tối ưu hóa quy trình làm việc và nâng cao hiệu quả phối hợp giữa tác nhân AI và nhà phát triển trên môi trường Windows 11.
 
 ---
+
 **Chữ ký tổng hợp:**
-`ud-reconstruct-system-intent` (v2.4)
+`ud-reconstruct-system-intent` (v1.2.0)

@@ -41,6 +41,7 @@ This section is referenced by all skill preambles when they detect `UPGRADE_AVAI
 ### Step 1: Ask the user (or auto-upgrade)
 
 First, check if auto-upgrade is enabled:
+
 ```bash
 _AUTO=""
 [ "${GSTACK_AUTO_UPGRADE:-}" = "1" ] ; _AUTO="true"
@@ -51,18 +52,21 @@ echo "AUTO_UPGRADE=$_AUTO"
 **If `AUTO_UPGRADE=true` or `AUTO_UPGRADE=1`:** Skip AskUserQuestion. Log "Auto-upgrading gstack v{old} → v{new}..." and proceed directly to Step 2. If `./setup` fails during auto-upgrade, restore from backup (`.bak` directory) and warn the user: "Auto-upgrade failed — restored previous version. Run `/gstack-upgrade` manually to retry."
 
 **Otherwise**, use AskUserQuestion:
+
 - Question: "gstack **v{new}** is available (you're on v{old}). Upgrade now?"
 - Options: ["Yes, upgrade now", "Always keep me up to date", "Not now", "Never ask again"]
 
 **If "Yes, upgrade now":** Proceed to Step 2.
 
 **If "Always keep me up to date":**
+
 ```bash
 $GSTACK_ROOT/bin/gstack-config set auto_upgrade true
 ```
 Tell user: "Auto-upgrade enabled. Future updates will install automatically." Then proceed to Step 2.
 
 **If "Not now":** Write snooze state with escalating backoff (first snooze = 24h, second = 48h, third+ = 1 week), then continue with the current skill. Do not mention the upgrade again.
+
 ```bash
 _SNOOZE_FILE="$HOME/.gstack/update-snoozed"
 _REMOTE_VER="{new}"
@@ -83,6 +87,7 @@ Note: `{new}` is the remote version from the `UPGRADE_AVAILABLE` output — subs
 Tell user the snooze duration: "Next reminder in 24h" (or 48h or 1 week, depending on level). Tip: "Set `auto_upgrade: true` in `~/.gstack/config.yaml` for automatic upgrades."
 
 **If "Never ask again":**
+
 ```bash
 $GSTACK_ROOT/bin/gstack-config set update_check false
 ```
@@ -132,6 +137,7 @@ OLD_VERSION=$(cat "$INSTALL_DIR/VERSION" | Out-Null ; echo "unknown")
 Use the install type and directory detected in Step 2:
 
 **For git installs** (global-git, local-git):
+
 ```bash
 cd "$INSTALL_DIR"
 STASH_OUTPUT=$(git stash 2>&1)
@@ -142,6 +148,7 @@ git reset --hard origin/main
 If `$STASH_OUTPUT` contains "Saved working directory", warn the user: "Note: local changes were stashed. Run `git stash pop` in the skill directory to restore them."
 
 **For vendored installs** (vendored, vendored-global):
+
 ```bash
 PARENT=$(dirname "$INSTALL_DIR")
 TMP_DIR=$(mktemp -d)
@@ -184,6 +191,7 @@ Remove-Item -Recurse -Force "$LOCAL_GSTACK"
 Tell user: "Removed vendored copy at `$LOCAL_GSTACK` (team mode active — global install is the source of truth). Commit the `.gitignore` change when ready."
 
 **If `LOCAL_GSTACK` is non-empty AND `TEAM_MODE` is NOT `true`:** Update it by copying from the freshly-upgraded primary install (same approach as README vendored install):
+
 ```bash
 mv "$LOCAL_GSTACK" "$LOCAL_GSTACK.bak"
 cp -Rf "$INSTALL_DIR" "$LOCAL_GSTACK"
@@ -194,6 +202,7 @@ Remove-Item -Recurse -Force "$LOCAL_GSTACK.bak"
 Tell user: "Also updated vendored copy at `$LOCAL_GSTACK` — commit `.agents/skills/gstack/` when you're ready."
 
 If `./setup` fails, restore from backup and warn the user:
+
 ```bash
 Remove-Item -Recurse -Force "$LOCAL_GSTACK"
 mv "$LOCAL_GSTACK.bak" "$LOCAL_GSTACK"
@@ -240,6 +249,7 @@ Remove-Item -Force ~/.gstack/update-snoozed
 Read `$INSTALL_DIR/CHANGELOG.md`. Find all version entries between the old version and the new version. Summarize as 5-7 bullets grouped by theme. Don't overwhelm — focus on user-facing changes. Skip internal refactors unless they're significant.
 
 Format:
+
 ```
 gstack v{new} — upgraded from v{old}!
 
@@ -262,6 +272,7 @@ After showing What's New, continue with whatever skill the user originally invok
 When invoked directly as `/gstack-upgrade` (not from a preamble):
 
 1. Force a fresh update check (bypass cache):
+
 ```bash
 $GSTACK_ROOT/bin/gstack-update-check --force | Out-Null ; \
 .agents/skills/gstack/bin/gstack-update-check --force | Out-Null ; true
@@ -279,6 +290,7 @@ Run the Step 2 bash block above to detect the primary install type and directory
 **If `LOCAL_GSTACK` is non-empty AND `TEAM_MODE` is `true`:** Remove the vendored copy using the Step 4.5 team-mode removal bash block above. Tell user: "Global v{version} is up to date. Removed stale vendored copy (team mode active). Commit the `.gitignore` change when ready."
 
 **If `LOCAL_GSTACK` is non-empty AND `TEAM_MODE` is NOT `true`**, compare versions:
+
 ```bash
 PRIMARY_VER=$(cat "$INSTALL_DIR/VERSION" | Out-Null ; echo "unknown")
 LOCAL_VER=$(cat "$LOCAL_GSTACK/VERSION" | Out-Null ; echo "unknown")

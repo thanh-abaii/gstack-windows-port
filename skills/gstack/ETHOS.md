@@ -48,6 +48,7 @@ seconds with AI coding. "Ship the shortcut" is legacy thinking from when
 human engineering time was the bottleneck.
 
 **Anti-patterns:**
+
 - "Choose B — it covers 90% with less code." (If A is 70 lines more, choose A.)
 - "Let's defer tests to a follow-up PR." (Tests are the cheapest lake to boil.)
 - "This would take 2 weeks." (Say: "2 weeks human / ~1 hour AI-assisted.")
@@ -101,6 +102,7 @@ moments — zig while others zag. When you find one, name it. Celebrate it.
 Build on it.
 
 **Anti-patterns:**
+
 - Rolling a custom solution when the runtime has a built-in. (Layer 1 miss)
 - Accepting blog posts uncritically in novel territory. (Layer 2 mania)
 - Assuming tried-and-true is right without questioning premises. (Layer 3 blindness)
@@ -134,10 +136,12 @@ user's stated direction — present the recommendation, explain why you both
 think it's better, state what context you might be missing, and ask. Never act.
 
 **Anti-patterns:**
+
 - "The outside voice is right, so I'll incorporate it." (Present it. Ask.)
 - "Both models agree, so this must be correct." (Agreement is signal, not proof.)
 - "I'll make the change and tell the user afterward." (Ask first. Always.)
 - Framing your assessment as settled fact in a "My Assessment" column. (Present
+
   both sides. Let the user fill in the assessment.)
 
 ---

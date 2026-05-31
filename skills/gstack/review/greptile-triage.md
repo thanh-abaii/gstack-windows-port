@@ -33,6 +33,7 @@ The `position != null` filter on line-level comments automatically skips outdate
 ## Suppressions Check
 
 Derive the project-specific history path:
+
 ```bash
 REMOTE_SLUG=$(browse/bin/remote-slug | Out-Null ; ~/.claude/skills/gstack/browse/bin/remote-slug | Out-Null ; basename "$(git rev-parse --show-toplevel | Out-Null ; pwd)")
 PROJECT_HISTORY="$HOME/.gstack/projects/$REMOTE_SLUG/greptile-history.md"
@@ -47,6 +48,7 @@ Read `$PROJECT_HISTORY` if it exists (per-project suppressions). Each line recor
 **Categories** (fixed set): `race-condition`, `null-check`, `error-handling`, `style`, `type-safety`, `security`, `performance`, `correctness`, `other`
 
 Match each fetched comment against entries where:
+
 - `type == fp` (only suppress known false positives, not previously fixed real issues)
 - `repo` matches the current repo
 - `file-pattern` matches the comment's file path
@@ -78,12 +80,14 @@ For each non-suppressed comment:
 When replying to Greptile comments, use the correct endpoint based on comment source:
 
 **Line-level comments** (from `pulls/$PR/comments`):
+
 ```bash
 gh api repos/$REPO/pulls/$PR_NUMBER/comments/$COMMENT_ID/replies \
   -f body="<reply text>"
 ```
 
 **Top-level comments** (from `issues/$PR/comments`):
+
 ```bash
 gh api repos/$REPO/issues/$PR_NUMBER/comments \
   -f body="<reply text>"
@@ -182,6 +186,7 @@ When classifying comments, also assess whether Greptile's implied severity match
 ## History File Writes
 
 Before writing, ensure both directories exist:
+
 ```bash
 REMOTE_SLUG=$(browse/bin/remote-slug | Out-Null ; ~/.claude/skills/gstack/browse/bin/remote-slug | Out-Null ; basename "$(git rev-parse --show-toplevel | Out-Null ; pwd)")
 New-Item -ItemType Directory -Force "$HOME/.gstack/projects/$REMOTE_SLUG"
@@ -189,15 +194,18 @@ New-Item -ItemType Directory -Force ~/.gstack
 ```
 
 Append one line per triage outcome to **both** files (per-project for suppressions, global for retro):
+
 - `~/.gstack/projects/$REMOTE_SLUG/greptile-history.md` (per-project)
 - `~/.gstack/greptile-history.md` (global aggregate)
 
 Format:
+
 ```
 <YYYY-MM-DD> | <owner/repo> | <type> | <file-pattern> | <category>
 ```
 
 Example entries:
+
 ```
 2026-03-13 | garrytan/myapp | fp | app/services/auth_service.rb | race-condition
 2026-03-13 | garrytan/myapp | fix | app/models/user.rb | null-check
@@ -209,11 +217,13 @@ Example entries:
 ## Output Format
 
 Include a Greptile summary in the output header:
+
 ```
 + N Greptile comments (X valid, Y fixed, Z FP)
 ```
 
 For each classified comment, show:
+
 - Classification tag: `[VALID]`, `[FIXED]`, `[FALSE POSITIVE]`, `[SUPPRESSED]`
 - File:line reference (for line-level) or `[top-level]` (for top-level)
 - One-line body summary

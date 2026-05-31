@@ -12,12 +12,16 @@
 gstack không vận hành như các công cụ rời rạc. Nó là một hệ sinh thái được kết nối thông qua 2 cơ chế chính:
 
 ### A. Composable Invocation (`{{INVOKE_SKILL}}`)
+
 Các kỹ năng lớn có thể nạp (inline) nội dung của các kỹ năng nhỏ hơn để tận dụng logic.
+
 - **Ví dụ:** `plan-ceo-review` -> `INVOKE_SKILL:office-hours`.
 - **Lợi ích:** Tránh trùng lặp mã nguồn (DRY) và đảm bảo tính nhất quán trong quy trình xử lý.
 
 ### B. Proactive Routing (Điều hướng Chủ động)
+
 Preamble của mọi kỹ năng gstack đều chứa "Bảng điều hướng" để chuyển giao nhiệm vụ:
+
 - **Product Ideation** -> `/office-hours`
 - **Bug/Error Tracking** -> `/investigate`
 - **Quality Assurance** -> `/qa`

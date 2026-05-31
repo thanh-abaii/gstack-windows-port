@@ -16,7 +16,6 @@ allowed-tools:
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
 
-
 ## When to invoke this skill
 
 Proper 1in margins,
@@ -57,6 +56,7 @@ If `MAKE_PDF_READY` is printed: `$P` is the binary path for the rest of
 the skill. Use `$P` (not an explicit path) so the skill body stays portable.
 
 Core commands:
+
 - `$P generate <input.md> [output.pdf]` — render markdown to PDF (80% use case)
 - `$P generate --cover --toc essay.md out.pdf` — full publiGet-Contention layout
 - `$P generate --watermark DRAFT memo.md draft.pdf` — diagonal DRAFT watermark
@@ -65,6 +65,7 @@ Core commands:
 - `$P --help` — full flag reference
 
 Output contract:
+
 - `stdout`: ONLY the output path on success. One line.
 - `stderr`: progress (`Rendering HTML... Generating PDF...`) unless `--quiet`.
 - Exit 0 success / 1 bad args / 2 render error / 3 Paged.js timeout / 4 browse unavailable.
@@ -86,6 +87,7 @@ If output shows `UPGRADE_AVAILABLE <old> <new>`: read `~/.claude/skills/gstack/g
 If output shows `JUST_UPGRADED <from> <to>`: print "Running gstack v{to} (just updated!)". If `SPAWNED_SESSION` is true, skip feature discovery.
 
 Feature discovery, max one prompt per session:
+
 - Missing `~/.claude/skills/gstack/.feature-prompted-continuous-checkpoint`: AskUserQuestion for Continuous checkpoint auto-commits. If accepted, run `~/.claude/skills/gstack/bin/gstack-config set checkpoint_mode continuous`. Always touch marker.
 - Missing `~/.claude/skills/gstack/.feature-prompted-model-overlay`: inform "Model overlays are active. MODEL_OVERLAY shows the patch." Always touch marker.
 
@@ -96,6 +98,7 @@ If `WRITING_STYLE_PENDING` is `yes`: ask once about writing style:
 > v1 prompts are simpler: first-use jargon glosses, outcome-framed questions, shorter prose. Keep default or restore terse?
 
 Options:
+
 - A) Keep the new default (recommended — good writing helps everyone)
 - B) Restore V0 prose — set `explain_level: terse`
 
@@ -103,6 +106,7 @@ If A: leave `explain_level` unset (defaults to `default`).
 If B: run `~/.claude/skills/gstack/bin/gstack-config set explain_level terse`.
 
 Always run (regardless of choice):
+
 ```bash
 Remove-Item -Force ~/.gstack/.writing-style-prompt-pending
 touch ~/.gstack/.writing-style-prompted
@@ -124,6 +128,7 @@ If `TEL_PROMPTED` is `no` AND `LAKE_INTRO` is `yes`: ask telemetry once via AskU
 > Help gstack get better. Share usage data only: skill, duration, crashes, stable device ID. No code, file paths, or repo names.
 
 Options:
+
 - A) Help gstack get better! (recommended)
 - B) No thanks
 
@@ -134,6 +139,7 @@ If B: ask follow-up:
 > Anonymous mode sends only aggregate usage, no unique ID.
 
 Options:
+
 - A) Sure, anonymous is fine
 - B) No thanks, fully off
 
@@ -141,6 +147,7 @@ If B→A: run `~/.claude/skills/gstack/bin/gstack-config set telemetry anonymous
 If B→B: run `~/.claude/skills/gstack/bin/gstack-config set telemetry off`
 
 Always run:
+
 ```bash
 touch ~/.gstack/.telemetry-prompted
 ```
@@ -152,6 +159,7 @@ If `PROACTIVE_PROMPTED` is `no` AND `TEL_PROMPTED` is `yes`: ask once:
 > Let gstack proactively suggest skills, like /qa for "does this work?" or /investigate for bugs?
 
 Options:
+
 - A) Keep it on (recommended)
 - B) Turn it off — I'll type /commands myself
 
@@ -159,6 +167,7 @@ If A: run `~/.claude/skills/gstack/bin/gstack-config set proactive true`
 If B: run `~/.claude/skills/gstack/bin/gstack-config set proactive false`
 
 Always run:
+
 ```bash
 touch ~/.gstack/.proactive-prompted
 ```
@@ -173,6 +182,7 @@ Use AskUserQuestion:
 > gstack works best when your project's CLAUDE.md includes skill routing rules.
 
 Options:
+
 - A) Add routing rules to CLAUDE.md (recommended)
 - B) No thanks, I'll invoke skills manually
 
@@ -212,10 +222,12 @@ If `VENDORED_GSTACK` is `yes`, warn once via AskUserQuestion unless `~/.gstack/.
 > Migrate to team mode?
 
 Options:
+
 - A) Yes, migrate to team mode now
 - B) No, I'll handle it myself
 
 If A:
+
 1. Run `git rm -r .claude/skills/gstack/`
 2. Run `echo '.claude/skills/gstack/' >> .gitignore`
 3. Run `~/.claude/skills/gstack/bin/gstack-team-init required` (or `optional`)
@@ -225,6 +237,7 @@ If A:
 If B: say "OK, you're on your own to keep the vendored copy up to date."
 
 Always run (regardless of choice):
+
 ```bash
 Invoke-Expression "$(~/.claude/skills/gstack/bin/gstack-slug 2>/dev/null)" 2>/dev/null || true
 touch ~/.gstack/.vendoring-warned-${SLUG:-unknown}
@@ -234,6 +247,7 @@ If marker exists, skip.
 
 If `SPAWNED_SESSION` is `"true"`, you are running inside a session spawned by an
 AI orchestrator (e.g., OpenClaw). In spawned sessions:
+
 - Do NOT use AskUserQuestion for interactive prompts. Auto-choose the recommended option.
 - Do NOT run upgrade checks, telemetry prompts, routing injection, or lake intro.
 - Focus on completing the task and reporting results via prose output.
@@ -336,13 +350,12 @@ else
 fi
 ```
 
-
-
 Privacy stop-gate: if output shows `ARTIFACTS_SYNC: off`, `artifacts_sync_mode_prompted` is `false`, and gbrain is on PATH or `gbrain doctor --fast --json` works, ask once:
 
 > gstack can publish your artifacts (CEO plans, designs, reports) to a private GitHub repo that GBrain indexes across machines. How much should sync?
 
 Options:
+
 - A) Everything allowlisted (recommended)
 - B) Only artifacts
 - C) Decline, keep everything local
@@ -363,7 +376,6 @@ At skill END before telemetry:
 "~/.claude/skills/gstack/bin/gstack-brain-sync" --discover-new 2>/dev/null || true
 "~/.claude/skills/gstack/bin/gstack-brain-sync" --once 2>/dev/null || true
 ```
-
 
 ## Model-Specific Behavioral Patch (claude)
 
@@ -394,6 +406,7 @@ The user has context you do not. Cross-model agreement is a recommendation, not 
 ## Completion Status Protocol
 
 When completing a skill workflow, report status using one of:
+
 - **DONE** — completed with evidence.
 - **DONE_WITH_CONCERNS** — completed, but list concerns.
 - **BLOCKED** — cannot proceed; state blocker and what was tried.
@@ -467,6 +480,7 @@ without sudo, managed or offline machines).
 ### 80% case — memo/letter
 
 One command, no flags. Gets a clean PDF with running header + page numbers
+
 + CONFIDENTIAL footer by default.
 
 ```bash
@@ -560,11 +574,15 @@ If the user has a `.md` file open and says "make it look nice", propose
 
 - Output looks empty / blank → check browse daemon is running: `$B status`.
 - Fragmented text on copy-paste → highlight.js output (Phase 4). Retry with
+
   `--no-syntax` once that flag exists. For now, remove fenced code blocks
   and regenerate.
+
 - Paged.js timeout → probably no headings in the markdown. Drop `--toc`.
 - External image missing → add `--allow-network` (understand you're giving
+
   the markdown file permission to fetch from its image URLs).
+
 - Generated PDF too tall/wide → `--page-size a4` or `--margins 0.75in`.
 
 ## Output contract

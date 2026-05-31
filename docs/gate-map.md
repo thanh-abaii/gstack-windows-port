@@ -10,6 +10,7 @@
 ## 1. Cơ chế Lưu trữ & Truy xuất
 
 gstack quản lý các cổng kiểm soát thông qua:
+
 - **Cấu hình tĩnh:** `~/.gstack/config.yaml` (Quản lý bởi `gstack_config.py`).
 - **Trạng thái runtime:** Các biến môi trường có tiền tố `_` (Gán bởi `gstack-boot.py`).
 - **Marker Files:** Các tệp tin ẩn trong `~/.gstack/` (ví dụ `.completeness-intro-seen`).
@@ -32,10 +33,13 @@ gstack quản lý các cổng kiểm soát thông qua:
 ## 3. Các loại Gate đặc biệt
 
 ### A. One-way Doors (Sensitive Gates)
+
 Các kỹ năng như `ship`, `land-and-deploy`, `guard` được coi là các "One-way Doors" (cửa một chiều). gstack yêu cầu xác nhận của người dùng ngay cả khi `PROACTIVE` đang bật.
 
 ### B. Progression Gates
+
 gstack sử dụng các marker files để theo dõi lộ trình học của người dùng:
+
 - `.writing-style-prompted`
 - `.completeness-intro-seen`
 - `.telemetry-prompted`

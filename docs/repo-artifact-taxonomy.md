@@ -1,7 +1,7 @@
 # Báo cáo Phân loại Thành phần gstack (Artifact Taxonomy)
 
 **Suite:** Uncle Dao Reverse Engineering Suite
-**Version:** v1.1
+**Version:** v1.2.0 (Hardened Plus)
 **Phase:** Ground Truth
 **Role:** Xác định nguồn gốc và độ tin cậy của dữ liệu.
 
@@ -54,6 +54,6 @@ Dựa trên cấu trúc thực tế, hệ thống gstack được phân thành 5
 
 ## 5. Kết luận & Bước tiếp theo
 
-Hệ thống gstack sử dụng mô hình **"Factory-based Skills"**. Tri thức thực sự nằm ở các template và scripts sinh mã. 
+Hệ thống gstack sử dụng mô hình **"Factory-based Skills"**. Tri thức thực sự nằm ở các template và scripts sinh mã.
 
 **Bước tiếp theo:** Chuyển sang Giai đoạn 1: `ud-analyze-agent-loop` để xem cách các file "Generated Source" này được Agent tiêu thụ như thế nào trong thực tế.

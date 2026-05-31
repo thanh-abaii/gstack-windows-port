@@ -31,11 +31,13 @@ Each item is tagged with a detection confidence level:
 ## Classification
 
 **AUTO-FIX** (mechanical CSS fixes only — HIGH confidence, no design judgment needed):
+
 - `outline: none` without replacement → add `outline: revert` or `&:focus-visible { outline: 2px solid currentColor; }`
 - `!important` in new CSS → remove and fix specificity
 - `font-size` < 16px on body text → bump to 16px
 
 **ASK** (everything else — requires design judgment):
+
 - All AI slop findings, typography structure, spacing choices, interaction state gaps, DESIGN.md violations
 
 **LOW confidence items** → present as "Possible: [description]. Verify visually or run /design-review." Never AUTO-FIX.
@@ -127,6 +129,7 @@ Only apply if `DESIGN.md` or `design-system.md` exists:
 ## Suppressions
 
 Do NOT flag:
+
 - Patterns explicitly documented in DESIGN.md as intentional choices
 - Third-party/vendor CSS files (node_modules, vendor directories)
 - CSS resets or normalize stylesheets

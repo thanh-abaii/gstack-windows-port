@@ -15,9 +15,9 @@ foreach ($s in $skills) {
     $dir = "skills/gstack-$s"
     $path = "$dir/SKILL.md"
     $yamlPath = "$dir/agents/openai.yaml"
-    
+
     Write-Host "Dang kiem tra: $s..." -ForegroundColor Yellow
-    
+
     # 1. Kiem tra su ton tai cua cac file
     if (!(Test-Path $path)) {
         throw "FAIL: Khong tim thay file SKILL.md tai $path"
@@ -25,22 +25,22 @@ foreach ($s in $skills) {
     if (!(Test-Path $yamlPath)) {
         throw "FAIL: Khong tim thay file agents/openai.yaml tai $yamlPath"
     }
-    
+
     # 2. Doc noi dung SKILL.md
     $content = Get-Content $path -Raw
-    
+
     # 3. Kiem tra YAML Frontmatter Name
     $expectedName = "name: gs:$s"
     if ($content -notlike "*$expectedName*") {
         throw "FAIL: YAML Frontmatter name khong dung chuan trong $s. Mong doi: '$expectedName'"
     }
-    
+
     # 4. Kiem tra Windows Native Preamble
     $expectedPreamble = 'python "bin/gstack-boot.py" --skill ' + $s + ' | iex'
     if ($content -notlike "*$expectedPreamble*") {
         throw "FAIL: Windows native preamble khong hop le trong $s."
     }
-    
+
     # 5. Kiem tra tuong thich Windows
     if ($content -like "*$val_m*") {
         throw "FAIL: Phat hien lenh Unix m-k-d-i-r trong $s"
@@ -51,7 +51,7 @@ foreach ($s in $skills) {
     if ($content -like "*$val_w*") {
         throw "FAIL: Phat hien lenh Unix w-c trong $s"
     }
-    
+
     Write-Host "-> ${s}: HOP LE!" -ForegroundColor Green
 }
 

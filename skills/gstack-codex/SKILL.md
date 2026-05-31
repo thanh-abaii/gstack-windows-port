@@ -46,6 +46,7 @@ to gstack v1. Ask the user once about the new default writing style. Use AskUser
 > Keep the new default, or prefer the older tighter prose?
 
 Options:
+
 - A) Keep the new default (recommended — good writing helps everyone)
 - B) Restore V0 prose — set `explain_level: terse`
 
@@ -53,6 +54,7 @@ If A: leave `explain_level` unset (defaults to `default`).
 If B: run `$GSTACK_BIN/gstack-config set explain_level terse`.
 
 Always run (regardless of choice):
+
 ```powershell
 Remove-Item -Force ~/.gstack/.writing-style-prompt-pending
 New-Item -ItemType File -Force ~/.gstack/.writing-style-prompted | Out-Null
@@ -81,6 +83,7 @@ ask the user about telemetry. Use AskUserQuestion:
 > Change anytime with `gstack-config set telemetry off`.
 
 Options:
+
 - A) Help gstack get better! (recommended)
 - B) No thanks
 
@@ -92,6 +95,7 @@ If B: ask a follow-up AskUserQuestion:
 > no way to connect sessions. Just a counter that helps us know if anyone's out there.
 
 Options:
+
 - A) Sure, anonymous is fine
 - B) No thanks, fully off
 
@@ -99,6 +103,7 @@ If B→A: run `$GSTACK_BIN/gstack-config set telemetry anonymous`
 If B→B: run `$GSTACK_BIN/gstack-config set telemetry off`
 
 Always run:
+
 ```powershell
 New-Item -ItemType File -Force ~/.gstack/.telemetry-prompted | Out-Null
 ```
@@ -113,6 +118,7 @@ ask the user about proactive behavior. Use AskUserQuestion:
 > a bug. We recommend keeping this on — it speeds up every part of your workflow.
 
 Options:
+
 - A) Keep it on (recommended)
 - B) Turn it off — I'll type /commands myself
 
@@ -120,6 +126,7 @@ If A: run `$GSTACK_BIN/gstack-config set proactive true`
 If B: run `$GSTACK_BIN/gstack-config set proactive false`
 
 Always run:
+
 ```powershell
 New-Item -ItemType File -Force ~/.gstack/.proactive-prompted | Out-Null
 ```
@@ -136,6 +143,7 @@ Use AskUserQuestion:
 > instead of answering directly. It's a one-time addition, about 15 lines.
 
 Options:
+
 - A) Add routing rules to CLAUDE.md (recommended)
 - B) No thanks, I'll invoke skills manually
 
@@ -183,10 +191,12 @@ Use AskUserQuestion (one-time per project, check for `~/.gstack/.vendoring-warne
 > Want to migrate to team mode? It takes about 30 seconds.
 
 Options:
+
 - A) Yes, migrate to team mode now
 - B) No, I'll handle it myself
 
 If A:
+
 1. Run `git rm -r .agents/skills/gstack/`
 2. Run `echo '.agents/skills/gstack/' >> .gitignore`
 3. Run `$GSTACK_BIN/gstack-team-init required` (or `optional`)
@@ -196,6 +206,7 @@ If A:
 If B: say "OK, you're on your own to keep the vendored copy up to date."
 
 Always run (regardless of choice):
+
 ```powershell
 python "bin/gstack-boot.py" --slug | Out-Null
 New-Item -ItemType File -Force ~/.gstack/.vendoring-warned-${env:SLUG:-unknown} | Out-Null
@@ -205,6 +216,7 @@ This only happens once per project. If the marker file exists, skip entirely.
 
 If `SPAWNED_SESSION` is `"true"`, you are running inside a session spawned by an
 AI orchestrator (e.g., OpenClaw). In spawned sessions:
+
 - Do NOT use AskUserQuestion for interactive prompts. Auto-choose the recommended option.
 - Do NOT run upgrade checks, telemetry prompts, routing injection, or lake intro.
 - Focus on completing the task and reporting results via prose output.
@@ -284,6 +296,7 @@ Determine which branch this PR/MR targets, or the repo's default branch if no
 PR/MR exists. Use the result as "the base branch" in all subsequent steps.
 
 **If GitHub:**
+
 ```powershell
 $baseBranch = gh pr view --json baseRefName -q .baseRefName
 if ($LASTEXITCODE -ne 0) {
@@ -292,6 +305,7 @@ if ($LASTEXITCODE -ne 0) {
 ```
 
 **If GitLab:**
+
 ```powershell
 $mr = glab mr view -F json | ConvertFrom-Json
 $baseBranch = $mr.target_branch
@@ -302,6 +316,7 @@ if ($LASTEXITCODE -ne 0) {
 ```
 
 **Git-native fallback:**
+
 ```powershell
 $baseBranch = git symbolic-ref refs/remotes/origin/HEAD | ForEach-Object { $_ -replace 'refs/remotes/origin/', '' }
 if (!$baseBranch) {
@@ -337,6 +352,7 @@ python "bin/gstack-boot.py" --codex-auth-probe
 ## Step 1: Pick a mode (AskUserQuestion)
 
 Choose one of three modes:
+
 - **Review (2A):** independent diff review via codex review
 - **Challenge (2B):** adversarial mode trying to break your code
 - **Consult (2C):** ask codex anything with session continuity
@@ -354,6 +370,7 @@ $TMPERR = Join-Path $TMP_ROOT "codex-err-$((New-Guid).Guid).txt"
 ```
 
 Generate the prompt and run codex:
+
 ```powershell
 python "bin/gstack-boot.py" --codex-review --resp-path "$TMPRESP" --err-path "$TMPERR"
 ```
