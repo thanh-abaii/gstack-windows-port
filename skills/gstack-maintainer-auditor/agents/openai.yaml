@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-maintainer-auditor"
+  short_description: "Automated PR Review, Windows Compatibility & Security compliance audit skill."
+  default_prompt: "Use gstack-maintainer-auditor for this task."
+policy:
+  allow_implicit_invocation: true
