@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-document-generate"
+  short_description: "Automated documentation generator for modules and features."
+  default_prompt: "Use gstack-document-generate for this task."
+policy:
+  allow_implicit_invocation: true

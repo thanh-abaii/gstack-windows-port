@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-make-pdf"
+  short_description: "Markdown to publication-quality PDF compiler."
+  default_prompt: "Use gstack-make-pdf for this task."
+policy:
+  allow_implicit_invocation: true

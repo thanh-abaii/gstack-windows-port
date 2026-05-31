@@ -1,0 +1,6 @@
+interface:
+  display_name: "gstack-spec"
+  short_description: "Phased specification planner. Translates vague intent into executable specs."
+  default_prompt: "Use gstack-spec for this task."
+policy:
+  allow_implicit_invocation: true
