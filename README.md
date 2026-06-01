@@ -42,7 +42,7 @@ Deep-dive into the port's anatomy:
 - [Strategic Synthesis (McKinsey Style)](docs/strategic-synthesis-gstack-v2.md)
 - [Technical Deep-Dive & System Intent](docs/system-intent.md)
 - [Artifact Taxonomy & Safety Gates](docs/repo-artifact-taxonomy.md)
-- [Full Skill Network Graph](docs/gstack_skill_network_graph.jpg)
+- [Full Skill Network Graph](assets/diagrams/gstack_skill_network_graph.jpg)
 - [v1.2.0 Automated Windows Compatibility & Secrets Audit Report](reports/maintainer_audit_report_v1.2.0.md)
 - [gstack Maintainer Auditor Skill Instruction Core](skills/gstack-maintainer-auditor/SKILL.md)
 
@@ -50,15 +50,15 @@ Deep-dive into the port's anatomy:
 
 Here are the visual representations of gstack's Windows native hybrid architecture and pipelines:
 
-![Hybrid Orchestration Flow](docs/visual_1776585736073.jpg)
+![Hybrid Orchestration Flow](assets/diagrams/visual_1776585736073.jpg)
 
 *Figure 1: gstack Windows Native Hybrid Orchestration Flow.*
 
-![Surgical Refactor Pipeline](docs/visual_1776588424229.jpg)
+![Surgical Refactor Pipeline](assets/diagrams/visual_1776588424229.jpg)
 
 *Figure 2: Unix-to-Windows Surgical Refactor Pipeline.*
 
-![Feature Gate Logic](docs/visual_1776591125261.jpg)
+![Feature Gate Logic](assets/diagrams/visual_1776591125261.jpg)
 
 *Figure 3: Hardened Control Gates & Security Logic.*
 
@@ -139,7 +139,7 @@ Hầu hết các tác nhân lập trình AI hiện đại (như Claude Code, Aid
 - [Báo cáo Chiến lược (Phong cách McKinsey)](docs/strategic-synthesis-gstack-v2.md)
 - [Phân tích Kỹ thuật & Ý đồ Hệ thống](docs/system-intent.md)
 - [Phân loại Artifact & Cổng Kiểm soát](docs/repo-artifact-taxonomy.md)
-- [Sơ đồ Mạng lưới Kỹ năng (Mindmap)](docs/gstack_skill_network_graph.jpg)
+- [Sơ đồ Mạng lưới Kỹ năng (Mindmap)](assets/diagrams/gstack_skill_network_graph.jpg)
 - [Báo cáo Kiểm toán Tương thích Windows & Secrets v1.2.0 Tự động](reports/maintainer_audit_report_v1.2.0.md)
 - [Tài liệu Hướng dẫn Skill Kiểm toán Maintainer gstack](skills/gstack-maintainer-auditor/SKILL.md)
 
@@ -147,15 +147,15 @@ Hầu hết các tác nhân lập trình AI hiện đại (như Claude Code, Aid
 
 Dưới đây là các hình ảnh trực quan mô tả kiến trúc lai (hybrid native) và quy trình vận hành của gstack trên Windows 11:
 
-![Hybrid Orchestration Flow](docs/visual_1776585736073.jpg)
+![Hybrid Orchestration Flow](assets/diagrams/visual_1776585736073.jpg)
 
 *Hình 1: Luồng xử lý điều phối lai (Hybrid Orchestration Flow) trên Windows.*
 
-![Surgical Refactor Pipeline](docs/visual_1776588424229.jpg)
+![Surgical Refactor Pipeline](assets/diagrams/visual_1776588424229.jpg)
 
 *Hình 2: Quy trình phẫu thuật tái cấu trúc mã nguồn (Surgical Refactor Pipeline) từ Unix sang Windows.*
 
-![Feature Gate Logic](docs/visual_1776591125261.jpg)
+![Feature Gate Logic](assets/diagrams/visual_1776591125261.jpg)
 
 *Hình 3: Logic kiểm soát cổng bảo mật (Feature Gate Logic) và an toàn hệ thống.*
 
