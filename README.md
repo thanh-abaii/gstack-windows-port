@@ -1,5 +1,9 @@
 # gstack Windows 11 Native Port (ud-re-suite)
 
+<p align="center">
+  <img src="assets/brand/hero.png?v=1.1" alt="gstack Windows 11 Native Port — run gstack skills natively on Windows 11" width="100%">
+</p>
+
 <p align="left">
   <a href="https://github.com/thanh-abaii/gstack-windows-port/actions/workflows/ci.yml"><img src="https://github.com/thanh-abaii/gstack-windows-port/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-8b5cf6.svg" alt="License: MIT"></a>
