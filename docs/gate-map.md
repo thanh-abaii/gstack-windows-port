@@ -1,7 +1,7 @@
 # Báo cáo Bản đồ Cổng kiểm soát (Feature Gate Map) - gstack
 
 **Suite:** Uncle Dao Reverse Engineering Suite
-**Version:** v1.1
+**Version:** v1.2.0 (Hardened Plus)
 **Phase:** Control Plane
 **Role:** Gate discovery and classification
 

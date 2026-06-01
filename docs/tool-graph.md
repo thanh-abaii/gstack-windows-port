@@ -1,7 +1,7 @@
 # Báo cáo Đồ thị Kết nối Kỹ năng (Tool/Skill Graph) - gstack
 
 **Suite:** Uncle Dao Reverse Engineering Suite
-**Version:** v1.1
+**Version:** v1.2.0 (Hardened Plus)
 **Phase:** Execution Model
 **Role:** Tool system analysis
 

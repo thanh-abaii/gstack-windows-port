@@ -16,11 +16,11 @@ tags:
   - porting
 ---
 
-# Porting 37 Gstack Skills to Windows Native (Python Bridge)
+# Porting 49 Gstack Skills to Windows Native (Python Bridge)
 
 ## Context
 
-37 kỹ năng gốc của hệ sinh thái `gstack` được thiết kế cho môi trường Unix (Bash, POSIX utilities). Khi chạy trên Windows 11/PowerShell, các kỹ năng này gặp lỗi nghiêm trọng do cú pháp shell (`&&`, `||`), đường dẫn không hợp lệ (`/tmp`, `~`) và sự thiếu hụt các công cụ như `sed`, `awk`. Cần một giải pháp "Native" để giữ nguyên sức mạnh của gstack mà không phụ thuộc vào Bash.
+49 kỹ năng của hệ sinh thái `gstack` gốc được thích ứng và port hoàn toàn sang môi trường Windows 11. Khi chạy trên Windows 11/PowerShell, các kỹ năng này gặp lỗi nghiêm trọng do cú pháp shell (`&&`, `||`), đường dẫn không hợp lệ (`/tmp`, `~`) và sự thiếu hụt các công cụ như `sed`, `awk`. Cần một giải pháp "Native" để giữ nguyên sức mạnh của gstack mà không phụ thuộc vào Bash.
 
 ## Guidance
 
