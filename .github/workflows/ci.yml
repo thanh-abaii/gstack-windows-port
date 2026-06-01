@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  compliance-check:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Verify assets structure
+      shell: powershell
+      run: |
+        Write-Host "Verifying repository assets organization..."
+        $requiredDirs = @("assets/brand", "assets/demo", "assets/diagrams")
+        foreach ($dir in $requiredDirs) {
+            if (Test-Path $dir) {
+                Write-Host "[PASS] Directory $dir exists." -ForegroundColor Green
+            } else {
+                Write-Error "[FAIL] Missing required directory: $dir"
+                exit 1
+            }
+        }
+        Write-Host "All directories verified successfully!" -ForegroundColor Green
