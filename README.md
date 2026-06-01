@@ -1,7 +1,11 @@
 # gstack Windows 11 Native Port (ud-re-suite)
 
 <p align="left">
+  <a href="https://github.com/thanh-abaii/gstack-windows-port/actions/workflows/ci.yml"><img src="https://github.com/thanh-abaii/gstack-windows-port/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-8b5cf6.svg" alt="License: MIT"></a>
+  <img src="https://img.shields.io/badge/python-3.8%2B-6366f1" alt="Python 3.8+">
+  <img src="https://img.shields.io/badge/deps-stdlib%20only-a855f7" alt="deps: stdlib only">
+  <img src="https://img.shields.io/badge/platforms-Windows%2011%20only-0078d4" alt="platforms: Windows 11 only">
 </p>
 
 > [!CAUTION]
