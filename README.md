@@ -80,7 +80,7 @@ To ensure maximum transparency, here is the complete directory of the **49 activ
 
 | Category | Skills | Description |
 | :--- | :--- | :--- |
-| **Core Dev & Automation** | `scrape`, `skillify`, `spec`, `document-generate`, `make-pdf` | Web scraping, automated skill creation, spec writing, and PDF reporting pipelines. |
+| **Core Dev & Automation** | `scrape`, `skillify`, `spec`, `document-generate`, `make-pdf`, `document-release` | Web scraping, automated skill creation, spec writing, post-ship documentation release, and PDF reporting pipelines. |
 | **Context & State** | `context-save`, `context-restore`, `freeze`, `unfreeze` | Agent state capture, workspace freeze boundary logic, and session state recovery. |
 | **Infra & Knowledge** | `setup-gbrain`, `sync-gbrain`, `codex`, `benchmark-models`, `landing-report`, `upgrade` | Global database setup, benchmark analysis, release report generation, and updates. |
 | **UI/UX & Design** | `design-consultation`, `design-html`, `design-review`, `design-shotgun`, `devex-review` | Beautiful UI design auditing, HTML/CSS generation pipelines, and dev experience reviews. |
@@ -177,7 +177,7 @@ Dưới đây là các hình ảnh trực quan mô tả kiến trúc lai (hybrid
 
 | Phân nhóm | Danh sách Kỹ năng | Vai trò / Chức năng |
 | :--- | :--- | :--- |
-| **Phát triển Cốt lõi & Cào dữ liệu** | `scrape`, `skillify`, `spec`, `document-generate`, `make-pdf` | Cào dữ liệu web, tự động tạo kỹ năng mới, viết đặc tả và xuất báo cáo PDF tự động. |
+| **Phát triển Cốt lõi & Cào dữ liệu** | `scrape`, `skillify`, `spec`, `document-generate`, `make-pdf`, `document-release` | Cào dữ liệu web, tự động tạo kỹ năng mới, viết đặc tả, tự động phát hành tài liệu sau ship, và xuất báo cáo PDF tự động. |
 | **Quản lý Context & Trạng thái** | `context-save`, `context-restore`, `freeze`, `unfreeze` | Lưu trữ trạng thái agent, thiết lập ranh giới đóng băng workspace, phục hồi phiên làm việc. |
 | **Hạ tầng & Đồng bộ tri thức** | `setup-gbrain`, `sync-gbrain`, `codex`, `benchmark-models`, `landing-report`, `upgrade` | Thiết lập cơ sở dữ liệu toàn cục, phân tích benchmark, xuất báo cáo landing, cập nhật gstack. |
 | **Thiết kế UI/UX & Đánh giá** | `design-consultation`, `design-html`, `design-review`, `design-shotgun`, `devex-review` | Kiểm toán UI/UX cao cấp, tạo mã HTML/CSS tự động, đánh giá trải nghiệm nhà phát triển. |
