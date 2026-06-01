@@ -1,7 +1,7 @@
 # Báo cáo Phân tích Build Pipeline & Surgical Refactor - gstack
 
 **Suite:** Uncle Dao Reverse Engineering Suite
-**Version:** v1.1
+**Version:** v1.2.0 (Hardened Plus)
 **Phase:** Ground Truth
 **Role:** Build-system and shipped-surface analysis
 

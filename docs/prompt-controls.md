@@ -1,7 +1,7 @@
 # Báo cáo Phân tích Bản sắc & Kiểm soát Hành vi (Behavioral Controls) - gstack
 
 **Suite:** Uncle Dao Reverse Engineering Suite
-**Version:** v1.1
+**Version:** v1.2.0 (Hardened Plus)
 **Phase:** Behavior Policy
 **Role:** Prompt and behavior-control analysis
 

@@ -1,7 +1,7 @@
 # Báo cáo Phân tích Vòng đời Agent (Agent Loop) - gstack Windows
 
 **Suite:** Uncle Dao Reverse Engineering Suite
-**Version:** v1.1
+**Version:** v1.2.0 (Hardened Plus)
 **Phase:** Execution Model
 **Role:** Runtime flow analysis
 
