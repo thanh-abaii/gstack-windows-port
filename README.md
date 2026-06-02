@@ -29,20 +29,28 @@
 
 ### 🌟 Overview
 
-This is the **Official v1.2.0 "Hardened Plus"** release of the gstack skill ecosystem, adapted for Windows 11. This port represents a practical architectural shift from the Unix-centric original to a high-performance **Hybrid Orchestration** model.
+`gstack-windows-port` is a Windows-native port of the gstack agent skill ecosystem. It replaces Unix-heavy shell assumptions with a Python/PowerShell bridge so agent workflows can run reliably on Windows 11 without WSL or Docker.
 
 - **Original Creator:** [Garry Tan](https://github.com/garrytan)
 - **Repo Source:** [github.com/garrytan/gstack](https://github.com/garrytan/gstack)
 - **Port Version:** `v1.2.0` (May 2026 - Hardened Plus)
-- **Primary Maintainer & Educational Hub:** Maintained by an administrator of the [Bình Dân Học AI Facebook Group](https://www.facebook.com/groups/binhdanhocai), widely recognized as Vietnam’s largest AI learning community with 650k+ members, as a practical reference for Windows-native agent workflows.
+- **Primary Maintainer & Educational Hub:** Maintained by an administrator of the [Bình Dân Học AI Facebook Group](https://www.facebook.com/groups/binhdanhocai), used as a practical reference for Windows-native agent workflows in Vietnam's AI learning community.
 
 ### 🌍 Why Windows Native Agent Tooling Matters
 
-Most modern AI coding agents (such as Claude Code, Aider, and custom agent harnesses) are heavily biased towards Unix/Linux environments. When executing commands on Windows, they frequently inject Bashisms, fail to parse paths correctly, or crash due to Shell compatibility issues. `gstack-windows-port` directly addresses this systemic ecosystem gap by providing a reliable, hardened, and PowerShell-first sandbox with 49 Windows adapted agent skills, turning Windows 11 into a first-class Windows-oriented host for autonomous AI developer agents.
+Many coding agents generate Unix-style commands by default. On Windows this can cause parser failures, broken paths, unsafe file operations, and incomplete maintainer workflows. `gstack-windows-port` addresses this ecosystem gap by hardening 49 gstack skills for PowerShell-first execution, with tests, audit reports, and documentation for repeatable OSS maintenance.
+
+### ✅ Current Proof Points
+
+- **49 adapted gstack skills** hardened for Windows 11 execution.
+- **PowerShell integration tests** in [`tests/`](tests/) for ported skill groups.
+- **Static compatibility and secret-scan reports** in [`reports/`](reports/).
+- **MIT licensed public repository** with a documented contribution workflow.
+- **Codex-ready roadmap** for PR review, release checks, compatibility regression, and security hardening.
 
 ### 🚀 Technical Highlights (Port Features)
 
-- **Hybrid Orchestration (IEX Pattern):** Utilizes `python | iex` to bypass Windows Shell limitations, designed to improve command fidelity.
+- **Hybrid Orchestration (IEX Pattern):** Uses `python | iex` to generate PowerShell-native runtime commands and avoid common shell parser failures.
 - **Boil the Lake Philosophy:** Hardcoded completeness checks that encourage broader test coverage, reducing incomplete agent outputs.
 - **Surgical Refactor v2.4:** All 49 skills have been stripped of Bashisms and "Hardened" with Python logic.
 - **Reality Grounding:** Browser verification using Gemini's native `browser_agent` integration.
@@ -97,10 +105,16 @@ Key audit checkpoints include:
 
 - **Bashism Detection:** Scans all python/powershell scripts to eliminate incompatible Unix operators and shell commands.
 - **Path Verification:** Hardens file actions against absolute Unix paths, ensuring proper Windows filesystem syntax.
-- **Codex Security Leak Prevention:** Scans codebase recursively for hardcoded secrets, passwords, or API keys.
+- **Secret Scanning & Unsafe Automation Review:** Scans codebase recursively for hardcoded secrets, passwords, API keys, and risky automation patterns.
 - **Line Ending Standards:** Verifies CRLF integrity across all PowerShell scripts.
 
 ### 🛠 Installation
+
+Prerequisites:
+
+- Windows 11
+- PowerShell 7+
+- Python 3.8+
 
 ```powershell
 .\setup.ps1
@@ -126,20 +140,28 @@ Key audit checkpoints include:
 
 ### 🌟 Tổng quan
 
-Đây là phiên bản **v1.2.0 "Hardened Plus" (Chính thức)** của hệ sinh thái gstack, được thích ứng chuyên biệt cho Windows 11. Bản port này đánh dấu sự chuyển đổi kiến trúc thực tế từ nguyên bản Unix sang mô hình **Hybrid Orchestration** hiệu suất cao.
+`gstack-windows-port` là bản port Windows-native của hệ sinh thái kỹ năng agent gstack. Dự án thay thế các giả định shell kiểu Unix bằng cầu nối Python/PowerShell để workflow agent chạy ổn định trên Windows 11 mà không cần WSL hoặc Docker.
 
 - **Tác giả gốc:** [Garry Tan](https://github.com/garrytan)
 - **Kho lưu trữ gốc:** [github.com/garrytan/gstack](https://github.com/garrytan/gstack)
 - **Phiên bản Port:** `v1.2.0` (Tháng 5, 2026 - Hardened Plus)
-- **Nhà duy trì & Định hướng Giáo dục:** Được bảo trì bởi quản trị viên của [Cộng đồng Facebook Bình Dân Học AI](https://www.facebook.com/groups/binhdanhocai), được biết đến rộng rãi như cộng đồng học tập AI lớn nhất Việt Nam với hơn 650.000 thành viên, làm tài liệu tham khảo thực tế cho các luồng vận hành tác nhân AI trên Windows.
+- **Nhà duy trì & Định hướng Giáo dục:** Được bảo trì bởi quản trị viên của [Cộng đồng Facebook Bình Dân Học AI](https://www.facebook.com/groups/binhdanhocai), làm tài liệu tham khảo thực tế cho các luồng vận hành tác nhân AI trên Windows tại cộng đồng học AI Việt Nam.
 
 ### 🌍 Tại sao Công cụ Agent Nguyên bản Windows lại quan trọng
 
-Hầu hết các tác nhân lập trình AI hiện đại (như Claude Code, Aider và các khung agent tùy chỉnh) đều bị thiên lệch sâu sắc về môi trường Unix/Linux. Khi chạy lệnh trên Windows, chúng thường xuyên đưa vào các lệnh Bashisms, phân tích đường dẫn sai hoặc bị lỗi do bất tương thích Shell. `gstack-windows-port` giải quyết trực tiếp khoảng trống hệ sinh thái này bằng cách cung cấp một môi trường hộp cát (sandbox) PowerShell-first đáng tin cậy, đã được tôi luyện và sẵn sàng chạy 49 kỹ năng agent thích ứng Windows, biến Windows 11 thành một môi trường vận hành chuyên biệt và an toàn cho các tác nhân AI.
+Nhiều tác nhân lập trình AI mặc định sinh lệnh kiểu Unix. Trên Windows, điều này có thể gây lỗi parser, sai đường dẫn, thao tác file thiếu an toàn và workflow bảo trì không hoàn tất. `gstack-windows-port` xử lý khoảng trống này bằng cách harden 49 kỹ năng gstack cho môi trường PowerShell-first, kèm test, báo cáo audit và tài liệu để bảo trì OSS có thể lặp lại.
+
+### ✅ Bằng chứng hiện tại
+
+- **49 kỹ năng gstack đã thích ứng** cho môi trường Windows 11.
+- **PowerShell integration tests** trong [`tests/`](tests/) cho các nhóm kỹ năng đã port.
+- **Báo cáo tương thích tĩnh và secret scan** trong [`reports/`](reports/).
+- **Repository public, giấy phép MIT** và có quy trình đóng góp rõ ràng.
+- **Roadmap sẵn sàng cho Codex**: PR review, release checks, compatibility regression và security hardening.
 
 ### 🚀 Đặc sắc kỹ thuật (Tính năng bản Port)
 
-- **Hybrid Orchestration (IEX Pattern):** Sử dụng `python | iex` để vượt qua giới hạn của Windows Shell, thiết kế nhằm cải thiện độ chính xác lệnh.
+- **Hybrid Orchestration (IEX Pattern):** Sử dụng `python | iex` để sinh lệnh runtime PowerShell-native và tránh các lỗi parser phổ biến.
 - **Triết lý Boil the Lake:** Các ràng buộc kiểm tra tính hoàn thiện giúp khuyến khích độ phủ kiểm thử rộng hơn, giảm thiểu các kết quả chưa hoàn tất của tác nhân AI.
 - **Surgical Refactor v2.4:** Toàn bộ 49 kỹ năng đã được loại bỏ Bashisms và "Hardened" bằng logic Python.
 - **Thực chứng (Reality Grounding):** Xác thực qua Trình duyệt nhờ tích hợp trực tiếp với `browser_agent` của Gemini.
@@ -194,10 +216,16 @@ Các hạng mục kiểm duyệt chính bao gồm:
 
 - **Phát hiện Bashisms:** Quét toàn bộ mã nguồn để loại bỏ các cú pháp Unix bất tương thích trên Windows.
 - **Kiểm tra Đường dẫn:** Đảm bảo toàn bộ thao tác tệp tin sử dụng cú pháp thư mục chuẩn PowerShell/Windows.
-- **Chống lộ lọt Secrets (Codex Security):** Quét đệ quy phát hiện và ngăn chặn việc gán cứng các API keys nhạy cảm trong mã nguồn.
+- **Quét secret và rà soát automation rủi ro:** Quét đệ quy để phát hiện hardcoded secrets, mật khẩu, API keys và các mẫu tự động hóa thiếu an toàn.
 - **Định dạng xuống dòng:** Xác thực chuẩn CRLF trên toàn bộ các tệp kịch bản PowerShell.
 
 ### 🛠 Cài đặt
+
+Yêu cầu:
+
+- Windows 11
+- PowerShell 7+
+- Python 3.8+
 
 ```powershell
 .\setup.ps1
