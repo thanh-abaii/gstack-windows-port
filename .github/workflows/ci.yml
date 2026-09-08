@@ -75,8 +75,11 @@ jobs:
         $failed = $false
         foreach ($t in Get-ChildItem -Path "tests/*.ps1") {
             Write-Host "--- $($t.Name) ---"
-            & $t.FullName
-            if ($LASTEXITCODE -ne 0) { $failed = $true }
+            powershell.exe -NoProfile -ExecutionPolicy Bypass -File $t.FullName
+            if ($LASTEXITCODE -ne 0) {
+                Write-Host "[FAIL] $($t.Name) exited with code $LASTEXITCODE" -ForegroundColor Red
+                $failed = $true
+            }
         }
         if ($failed) {
             Write-Error "[FAIL] One or more integration tests failed."
