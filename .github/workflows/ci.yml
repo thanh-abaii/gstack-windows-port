@@ -42,7 +42,8 @@ jobs:
             exit 1
         }
         # Known skill must succeed and emit PowerShell assignments.
-        $out = python bin/gstack-boot.py --skill health
+        # NOTE: captured stdout is a line array, join it so -match tests the whole text.
+        $out = (python bin/gstack-boot.py --skill health) -join "`n"
         if ($LASTEXITCODE -ne 0) {
             Write-Error "[FAIL] Bootloader rejected known skill 'health'."
             exit 1
