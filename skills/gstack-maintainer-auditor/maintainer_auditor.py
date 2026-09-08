@@ -39,7 +39,11 @@ SECRETS = {
 }
 
 INCLUDED_EXTENSIONS = ['.py', '.ps1', '.json', '.yaml', '.yml', '.md', '.bat', '.cmd']
-DEFAULT_EXCLUDE_DIRS = ['.git', '.venv', 'venv', 'node_modules', 'private', '.antigravitycli']
+# NOTE: `reports/` is excluded on purpose — the auditor's own Markdown output
+# quotes offending snippets, so scanning it would count every finding twice
+# (self-scan feedback loop). `gstack-original/` is the upstream Unix reference
+# and is already git-ignored; it is excluded here, never modified.
+DEFAULT_EXCLUDE_DIRS = ['.git', '.venv', 'venv', 'node_modules', 'private', '.antigravitycli', 'reports']
 
 def parse_gitignore(root_dir: str) -> List[str]:
     """Parse local .gitignore if exists to skip ignored files."""
@@ -62,15 +66,28 @@ def should_ignore(path: str, root_dir: str, ignore_patterns: List[str]) -> bool:
     """Check if file should be ignored based on gitignore and default excludes."""
     rel_path = os.path.relpath(path, root_dir)
     parts = rel_path.split(os.sep)
-    
+
     for exclude in DEFAULT_EXCLUDE_DIRS:
         if exclude in parts:
             return True
-            
+
+    # Normalize to forward slashes for gitignore-style matching.
+    rel_posix = rel_path.replace(os.sep, '/')
     for pattern in ignore_patterns:
-        if fnmatch.fnmatch(rel_path, pattern) or any(fnmatch.fnmatch(part, pattern) for part in parts):
+        pat = pattern.strip()
+        if not pat or pat.startswith('!'):
+            continue
+        # A trailing '/' in .gitignore means "everything under this directory".
+        # The old code stripped the slash and then never matched, silently
+        # scanning git-ignored trees (e.g. gstack-original/, docs/plans/).
+        dir_pat = pat[:-1] if pat.endswith('/') else pat
+        if rel_posix == dir_pat or rel_posix.startswith(dir_pat.rstrip('/') + '/'):
             return True
-            
+        if fnmatch.fnmatch(rel_posix, pat) or fnmatch.fnmatch(rel_posix, pat.rstrip('/') + '/*'):
+            return True
+        if any(fnmatch.fnmatch(part, pat) for part in parts):
+            return True
+
     return False
 
 def audit_file(file_path: str) -> Dict[str, Any]:
@@ -208,22 +225,33 @@ def generate_markdown_report(results: Dict[str, Dict[str, Any]], total_issues: i
 
 def main():
     root = os.getcwd()
-    if len(sys.argv) > 1:
-        root = sys.argv[1]
-        
+    fail_on_secrets = False
+    args = sys.argv[1:]
+    # Minimal flag parsing (stdlib only, no argparse needed here).
+    if '--fail-on-secrets' in args:
+        fail_on_secrets = True
+        args = [a for a in args if a != '--fail-on-secrets']
+    if len(args) > 0:
+        root = args[0]
+
     results, total_issues = run_audit(root)
-    
+
     reports_dir = os.path.join(root, 'reports')
     os.makedirs(reports_dir, exist_ok=True)
-    
+
     report_md = generate_markdown_report(results, total_issues)
     report_path = os.path.join(reports_dir, 'maintainer_audit_report.md')
-    
+
     with open(report_path, 'w', encoding='utf-8') as f:
         f.write(report_md)
-        
+
+    secrets_count = sum(len(res['secrets']) for res in results.values())
     print(f"[OK] Audit complete. Found {total_issues} issues.")
     print(f"[INFO] Report generated successfully")
+
+    if fail_on_secrets and secrets_count > 0:
+        print(f"[FAIL] {secrets_count} hardcoded secret(s) detected.", file=sys.stderr)
+        sys.exit(1)
 
 if __name__ == '__main__':
     main()

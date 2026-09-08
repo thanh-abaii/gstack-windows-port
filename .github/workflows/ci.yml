@@ -32,3 +32,63 @@ jobs:
             }
         }
         Write-Host "All directories verified successfully!" -ForegroundColor Green
+
+    - name: Verify skill bootloader (bin/gstack-boot.py)
+      shell: powershell
+      run: |
+        Write-Host "Checking bootloader referenced by all SKILL.md preambles..."
+        if (!(Test-Path "bin/gstack-boot.py")) {
+            Write-Error "[FAIL] bin/gstack-boot.py is missing but referenced by skill preambles."
+            exit 1
+        }
+        # Known skill must succeed and emit PowerShell assignments.
+        $out = python bin/gstack-boot.py --skill health
+        if ($LASTEXITCODE -ne 0) {
+            Write-Error "[FAIL] Bootloader rejected known skill 'health'."
+            exit 1
+        }
+        if ($out -notmatch '\$GSTACK_SKILL' -or $out -notmatch '\$env:GSTACK_ROOT') {
+            Write-Error "[FAIL] Bootloader output is not valid PowerShell bootstrap."
+            exit 1
+        }
+        Write-Host "[PASS] Bootloader emits valid PowerShell for known skill." -ForegroundColor Green
+        # Unknown skill must fail loudly (exit 2) so `| iex` never continues silently.
+        python bin/gstack-boot.py --skill this-skill-does-not-exist | Out-Null
+        if ($LASTEXITCODE -ne 2) {
+            Write-Error "[FAIL] Bootloader must exit 2 for unknown skills (got $LASTEXITCODE)."
+            exit 1
+        }
+        Write-Host "[PASS] Bootloader rejects unknown skills with exit 2." -ForegroundColor Green
+        # End-to-end: the documented IEX pattern must work.
+        python bin/gstack-boot.py --skill health | iex
+        if ($env:GSTACK_SKILL -ne "health") {
+            Write-Error "[FAIL] IEX pattern did not set `$env:GSTACK_SKILL."
+            exit 1
+        }
+        Write-Host "[PASS] IEX pattern works end-to-end." -ForegroundColor Green
+
+    - name: Run PowerShell integration tests
+      shell: powershell
+      run: |
+        Write-Host "Running tests/*.ps1 ..."
+        $failed = $false
+        foreach ($t in Get-ChildItem -Path "tests/*.ps1") {
+            Write-Host "--- $($t.Name) ---"
+            & $t.FullName
+            if ($LASTEXITCODE -ne 0) { $failed = $true }
+        }
+        if ($failed) {
+            Write-Error "[FAIL] One or more integration tests failed."
+            exit 1
+        }
+        Write-Host "[PASS] All integration tests passed." -ForegroundColor Green
+
+    - name: Run maintainer audit (fail on secrets)
+      shell: powershell
+      run: |
+        python skills/gstack-maintainer-auditor/maintainer_auditor.py --fail-on-secrets
+        if ($LASTEXITCODE -ne 0) {
+            Write-Error "[FAIL] Hardcoded secrets detected. See reports/maintainer_audit_report.md."
+            exit 1
+        }
+        Write-Host "[PASS] No hardcoded secrets detected." -ForegroundColor Green

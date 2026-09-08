@@ -1,5 +1,5 @@
 # gstack Windows Native Port Installer
-# Version: 1.2.0 (Hardened Plus - Added Dry-run support)
+# Version: 1.2.1 (Bootloader & CI hardening)
 
 Param(
     [Parameter(Mandatory=$false)]

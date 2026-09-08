@@ -33,7 +33,7 @@
 
 - **Original Creator:** [Garry Tan](https://github.com/garrytan)
 - **Repo Source:** [github.com/garrytan/gstack](https://github.com/garrytan/gstack)
-- **Port Version:** `v1.2.0` (May 2026 - Hardened Plus)
+- **Port Version:** `v1.2.1` (September 2026 - Bootloader & CI hardening)
 - **Primary Maintainer & Educational Hub:** Maintained by an administrator of the [Bình Dân Học AI Facebook Group](https://www.facebook.com/groups/binhdanhocai), used as a practical reference for Windows-native agent workflows in Vietnam's AI learning community.
 
 ### 🌍 Why Windows Native Agent Tooling Matters
@@ -43,16 +43,17 @@ Many coding agents generate Unix-style commands by default. On Windows this can 
 ### ✅ Current Proof Points
 
 - **49 adapted gstack skills** hardened for Windows 11 execution.
+- **Working skill bootloader** ([`bin/gstack-boot.py`](bin/gstack-boot.py)) backing the documented `python | iex` preamble in all 50 skill files.
 - **PowerShell integration tests** in [`tests/`](tests/) for ported skill groups.
-- **Static compatibility and secret-scan reports** in [`reports/`](reports/).
+- **CI gates** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)): bootloader contract, integration tests, and secret scan on every push/PR.
+- **Static compatibility and secret-scan reports** in [`reports/`](reports/): current baseline is 503 tracked compatibility findings in `skills/` with **0 hardcoded secrets**.
 - **MIT licensed public repository** with a documented contribution workflow.
-- **Codex-ready roadmap** for PR review, release checks, compatibility regression, and security hardening.
 
 ### 🚀 Technical Highlights (Port Features)
 
-- **Hybrid Orchestration (IEX Pattern):** Uses `python | iex` to generate PowerShell-native runtime commands and avoid common shell parser failures.
+- **Hybrid Orchestration (IEX Pattern):** Uses `python | iex` to generate PowerShell-native runtime commands and avoid common shell parser failures. The generator is [`bin/gstack-boot.py`](bin/gstack-boot.py): it resolves the repo root from its own location, validates the skill name against `skills/`, emits `$GSTACK_ROOT` / `$GSTACK_BIN` / `$GSTACK_SKILL_DIR` assignments, and fails loudly (exit 2) on unknown skills so a broken preamble never continues silently.
 - **Boil the Lake Philosophy:** Hardcoded completeness checks that encourage broader test coverage, reducing incomplete agent outputs.
-- **Surgical Refactor v2.4:** All 49 skills have been stripped of Bashisms and "Hardened" with Python logic.
+- **Surgical Refactor (ongoing):** All 50 skill files share the standardized IEX preamble. Skill bodies still contain Unix-isms being cleaned up progressively; remaining findings are tracked openly by the maintainer auditor (503 open items, 0 secrets — see [`reports/maintainer_audit_report.md`](reports/maintainer_audit_report.md)).
 - **Reality Grounding:** Browser verification using Gemini's native `browser_agent` integration.
 
 ### 📚 Research & Documentation
@@ -120,15 +121,24 @@ Prerequisites:
 .\setup.ps1
 ```
 
+Verify the install (recommended before pushing changes):
+
+```powershell
+.\setup.ps1 -DryRun
+python bin/gstack-boot.py --skill health | iex
+Get-ChildItem tests/*.ps1 | ForEach-Object { & $_.FullName }
+python skills/gstack-maintainer-auditor/maintainer_auditor.py --fail-on-secrets
+```
+
 ### 🗺️ Roadmap 2026
 
-- **Q2 2026 (Enhance Core):** Add more hardened PowerShell-native system diagnostics tools; achieve broader test coverage for path resolution across multiple Windows drives.
-- **Q3 2026 (Codex Integration):** Build native Codex-assisted PR review & release checklist pipelines optimized specifically for Windows maintainer environments.
-- **Q4 2026 (Telemetry & Auditing):** Implement local telemetry dashboards to track agent tool-calling performance and API token spend directly on Windows.
+- **Q2 2026 (done):** Core port of 49 skills, `gstack-maintainer-auditor` skill, PowerShell integration tests, visual architecture diagrams.
+- **Q3 2026 (in progress):** Working `bin/gstack-boot.py` bootloader, CI gates (bootloader contract + tests + secret scan), auditor accuracy fixes (excluded self-scan noise and upstream reference). Next: harden remaining Bashisms in `skills/` bodies, expand test coverage from 11 to all 49 skills.
+- **Q4 2026 (planned):** Codex-assisted PR review & release checklist pipelines, local telemetry dashboard for agent tool-calling performance and API token spend.
 
 ### 📜 Changelog
 
-- **v1.2.0 (2026-05-31):** Hardened Plus release. Ported 12 new high-value/infrastructure skills (`scrape`, `skillify`, `spec`, `make-pdf`, `document-generate`, etc.), added the automated `gstack-maintainer-auditor` skill for Windows compatibility auditing, integrated visual architecture flowcharts, and set up PowerShell integration tests.
+- **v1.2.1 (2026-09-08):** Bootloader & CI hardening. Added the missing `bin/gstack-boot.py` referenced by all skill preambles (validates skill names, emits PowerShell bootstrap, exits 2 on unknown skills); fixed the auditor to exclude its own `reports/` output and git-ignored trees (baseline corrected from 3207 noisy hits to 503 tracked findings, 0 secrets); added `--fail-on-secrets` flag; CI now gates the bootloader contract, all `tests/*.ps1`, and the secret scan.
 - **v1.0.0 (2026-04-19):** Official stable release. Completed Phase 4 of UD-Re-Suite.
 - **v0.9.x (2026-04-14):** Initial compliance audit and Bash-to-Python bridge prototyping.
 
@@ -144,7 +154,7 @@ Prerequisites:
 
 - **Tác giả gốc:** [Garry Tan](https://github.com/garrytan)
 - **Kho lưu trữ gốc:** [github.com/garrytan/gstack](https://github.com/garrytan/gstack)
-- **Phiên bản Port:** `v1.2.0` (Tháng 5, 2026 - Hardened Plus)
+- **Phiên bản Port:** `v1.2.1` (Tháng 9, 2026 - Bootloader & CI hardening)
 - **Nhà duy trì & Định hướng Giáo dục:** Được bảo trì bởi quản trị viên của [Cộng đồng Facebook Bình Dân Học AI](https://www.facebook.com/groups/binhdanhocai), làm tài liệu tham khảo thực tế cho các luồng vận hành tác nhân AI trên Windows tại cộng đồng học AI Việt Nam.
 
 ### 🌍 Tại sao Công cụ Agent Nguyên bản Windows lại quan trọng
@@ -154,16 +164,17 @@ Nhiều tác nhân lập trình AI mặc định sinh lệnh kiểu Unix. Trên 
 ### ✅ Bằng chứng hiện tại
 
 - **49 kỹ năng gstack đã thích ứng** cho môi trường Windows 11.
+- **Bootloader chạy được** ([`bin/gstack-boot.py`](bin/gstack-boot.py)) đứng sau preamble `python | iex` trong cả 50 file skill.
 - **PowerShell integration tests** trong [`tests/`](tests/) cho các nhóm kỹ năng đã port.
-- **Báo cáo tương thích tĩnh và secret scan** trong [`reports/`](reports/).
+- **Cổng kiểm tra CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)): kiểm tra bootloader, integration tests và secret scan trên mọi push/PR.
+- **Báo cáo tương thích tĩnh và secret scan** trong [`reports/`](reports/): baseline hiện tại là 503 phát hiện tương thích đang theo dõi trong `skills/`, **0 hardcoded secrets**.
 - **Repository public, giấy phép MIT** và có quy trình đóng góp rõ ràng.
-- **Roadmap sẵn sàng cho Codex**: PR review, release checks, compatibility regression và security hardening.
 
 ### 🚀 Đặc sắc kỹ thuật (Tính năng bản Port)
 
-- **Hybrid Orchestration (IEX Pattern):** Sử dụng `python | iex` để sinh lệnh runtime PowerShell-native và tránh các lỗi parser phổ biến.
+- **Hybrid Orchestration (IEX Pattern):** Sử dụng `python | iex` để sinh lệnh runtime PowerShell-native và tránh các lỗi parser phổ biến. Bộ sinh lệnh là [`bin/gstack-boot.py`](bin/gstack-boot.py): tự dò repo root từ vị trí script, kiểm tra tên skill trong `skills/`, in ra các gán `$GSTACK_ROOT` / `$GSTACK_BIN` / `$GSTACK_SKILL_DIR`, và báo lỗi ồn ào (exit 2) khi gặp skill lạ để preamble gãy không bao giờ chạy tiếp âm thầm.
 - **Triết lý Boil the Lake:** Các ràng buộc kiểm tra tính hoàn thiện giúp khuyến khích độ phủ kiểm thử rộng hơn, giảm thiểu các kết quả chưa hoàn tất của tác nhân AI.
-- **Surgical Refactor v2.4:** Toàn bộ 49 kỹ năng đã được loại bỏ Bashisms và "Hardened" bằng logic Python.
+- **Surgical Refactor (đang tiếp diễn):** Cả 50 file skill dùng chung preamble IEX chuẩn. Thân skill vẫn còn Unix-isms đang được làm sạch dần; các phát hiện còn lại được auditor theo dõi công khai (503 mục, 0 secrets — xem [`reports/maintainer_audit_report.md`](reports/maintainer_audit_report.md)).
 - **Thực chứng (Reality Grounding):** Xác thực qua Trình duyệt nhờ tích hợp trực tiếp với `browser_agent` của Gemini.
 
 ### 📚 Tài liệu Nghiên cứu
@@ -231,15 +242,24 @@ Yêu cầu:
 .\setup.ps1
 ```
 
+Kiểm tra lại sau khi cài (khuyến nghị trước khi push thay đổi):
+
+```powershell
+.\setup.ps1 -DryRun
+python bin/gstack-boot.py --skill health | iex
+Get-ChildItem tests/*.ps1 | ForEach-Object { & $_.FullName }
+python skills/gstack-maintainer-auditor/maintainer_auditor.py --fail-on-secrets
+```
+
 ### 🗺️ Lộ trình Phát triển 2026 (Roadmap)
 
-- **Quý 2/2026 (Củng cố Cốt lõi):** Bổ sung thêm các công cụ chẩn đoán hệ thống thuần PowerShell; hướng tới mở rộng độ phủ kiểm thử việc phân tích đường dẫn trên các ổ đĩa Windows.
-- **Quý 3/2026 (Tích hợp Codex):** Xây dựng các luồng PR review và release checklist tự động qua Codex, được tối ưu riêng cho môi trường bảo trì trên Windows.
-- **Quý 4/2026 (Giám sát & Đo lường):** Triển khai bảng điều khiển giám sát cục bộ (local telemetry) để theo dõi hiệu năng gọi tool của agent và chi phí API token trực tiếp trên Windows.
+- **Quý 2/2026 (đã xong):** Port cốt lõi 49 kỹ năng, skill `gstack-maintainer-auditor`, PowerShell integration tests, sơ đồ kiến trúc trực quan.
+- **Quý 3/2026 (đang làm):** Bootloader `bin/gstack-boot.py` chạy được, cổng kiểm tra CI (bootloader + tests + secret scan), sửa độ chính xác auditor (loại nhiễu tự quét và mã nguồn tham chiếu upstream). Tiếp theo: harden nốt Bashisms trong thân `skills/`, mở rộng test từ 11 lên đủ 49 kỹ năng.
+- **Quý 4/2026 (dự kiến):** PR review & release checklist hỗ trợ Codex, bảng telemetry cục bộ theo dõi hiệu năng gọi tool của agent và chi phí API token.
 
 ### 📜 Nhật ký thay đổi (Changelog)
 
-- **v1.2.0 (2026-05-31):** Bản phát hành Hardened Plus. Port hàng loạt 12 kỹ năng mới (`scrape`, `skillify`, `spec`, `make-pdf`...), triển khai Skill kiểm toán tự động `gstack-maintainer-auditor` phát hiện Bashisms & API secrets, tích hợp các sơ đồ trực quan và cài đặt hệ thống kịch bản kiểm thử PowerShell.
+- **v1.2.1 (2026-09-08):** Bootloader & CI hardening. Bổ sung `bin/gstack-boot.py` còn thiếu mà mọi preamble skill đang gọi (kiểm tra tên skill, sinh bootstrap PowerShell, exit 2 với skill lạ); sửa auditor loại output `reports/` của chính nó và các cây thư mục đã git-ignore (baseline điều chỉnh từ 3207 hits nhiễu xuống 503 phát hiện đang theo dõi, 0 secrets); thêm flag `--fail-on-secrets`; CI giờ kiểm tra bootloader, toàn bộ `tests/*.ps1` và secret scan.
 - **v1.0.0 (2026-04-19):** Phát hành bản ổn định chính thức. Hoàn tất Giai đoạn 4 của UD-Re-Suite.
 - **v0.9.x (2026-04-14):** Kiểm toán tuân thủ ban đầu và thử nghiệm Bridge Bash-to-Python.
 
