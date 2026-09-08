@@ -48,6 +48,7 @@ Many coding agents generate Unix-style commands by default. On Windows this can 
 - **CI gates** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)): bootloader contract, integration tests, and secret scan on every push/PR.
 - **Static compatibility and secret-scan reports** in [`reports/`](reports/): current baseline is 503 tracked compatibility findings in `skills/` with **0 hardcoded secrets**.
 - **MIT licensed public repository** with a documented contribution workflow.
+- **Maintainer automation plan** with Codex in [`docs/codex-usage.md`](docs/codex-usage.md): PR review baseline, triage, and release workflow.
 
 ### 🚀 Technical Highlights (Port Features)
 
@@ -169,6 +170,7 @@ Nhiều tác nhân lập trình AI mặc định sinh lệnh kiểu Unix. Trên 
 - **Cổng kiểm tra CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)): kiểm tra bootloader, integration tests và secret scan trên mọi push/PR.
 - **Báo cáo tương thích tĩnh và secret scan** trong [`reports/`](reports/): baseline hiện tại là 503 phát hiện tương thích đang theo dõi trong `skills/`, **0 hardcoded secrets**.
 - **Repository public, giấy phép MIT** và có quy trình đóng góp rõ ràng.
+- **Kế hoạch tự động hoá bảo trì** bằng Codex trong [`docs/codex-usage.md`](docs/codex-usage.md): baseline review PR, triage và quy trình phát hành.
 
 ### 🚀 Đặc sắc kỹ thuật (Tính năng bản Port)
 
